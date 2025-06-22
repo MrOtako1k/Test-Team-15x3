@@ -322,6 +322,24 @@
             letter-spacing: 1px;
         }
 
+        .back-btn {
+            background: #2a2a2a;
+            border: 2px solid #404040;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .back-btn:hover {
+            border-color: #667eea;
+            background: #333;
+        }
+
         /* Loading */
         .loading {
             display: inline-block;
@@ -409,7 +427,7 @@
             <h2 class="success-title">تم إرسال طلبك بنجاح!</h2>
             
             <p class="success-message">
-                شكراً لك على إكمال الاستبيان. سيتم مراجعة طلبك قريباً.
+                شكراً لك على إكمال الاستبيان. سيتم مراجعة طلبك من قبل الإدارة قريباً.
             </p>
 
             <div class="status-info">
@@ -431,6 +449,10 @@
                 <div class="reference-label">رقم المرجع:</div>
                 <div class="reference-value" id="referenceNumber"></div>
             </div>
+
+            <button class="back-btn" onclick="goHome()">
+                العودة للصفحة الرئيسية
+            </button>
         </div>
     </div>
 
@@ -490,11 +512,6 @@
                 id: 11,
                 text: "WACHE HATB9A DAYMAN DAYR TAG 15x3 LILABADE",
                 type: "yes_no"
-            },
-            {
-                id: 12,
-                text: "3ETINA NMRA DYALK BACHE ANTWASLO M3AK",
-                type: "text"
             }
         ];
 
@@ -596,6 +613,29 @@
             submitBtn.innerHTML = 'جاري الإرسال...<span class="loading"></span>';
             submitBtn.disabled = true;
 
+            // إنشاء بيانات الطلب
+            const submissionData = {
+                id: Date.now(),
+                name: answers[1] || 'غير محدد',
+                age: answers[2] || 'غير محدد',
+                previousTeam: answers[3] || 'غير محدد',
+                device: answers[4] || 'غير محدد',
+                skills: answers[5] || 'غير محدد',
+                teamRole: answers[6] || 'غير محدد',
+                gamesDeveloped: answers[7] || 'غير محدد',
+                studyField: answers[8] || 'غير محدد',
+                commitment: answers[9] || 'غير محدد',
+                message: answers[10] || 'غير محدد',
+                keepTag: answers[11] || 'غير محدد',
+                status: 'pending',
+                date: new Date().toISOString().split('T')[0],
+                reference: `15X3-${Date.now().toString().slice(-8)}`,
+                answers: answers
+            };
+
+            // حفظ الطلب في localStorage
+            saveSubmissionToAdmin(submissionData);
+
             setTimeout(() => {
                 // إخفاء الاستبيان وإظهار شاشة النجاح
                 document.getElementById('surveyContainer').style.display = 'none';
@@ -603,12 +643,41 @@
                 // تحديث التاريخ ورقم المرجع
                 const now = new Date();
                 document.getElementById('submissionDate').textContent = now.toLocaleDateString('ar-SA');
-                document.getElementById('referenceNumber').textContent = `15X3-${Date.now().toString().slice(-8)}`;
+                document.getElementById('referenceNumber').textContent = submissionData.reference;
                 
                 // إظهار شاشة النجاح
                 document.getElementById('successScreen').style.display = 'block';
                 
             }, 2000);
+        }
+
+        function saveSubmissionToAdmin(submissionData) {
+            // الحصول على الطلبات الموجودة
+            let submissions = JSON.parse(localStorage.getItem('adminSubmissions') || '[]');
+            
+            // إضافة الطلب الجديد
+            submissions.unshift(submissionData);
+            
+            // حفظ الطلبات المحدثة
+            localStorage.setItem('adminSubmissions', JSON.stringify(submissions));
+            
+            // تحديث الإحصائيات
+            updateAdminStats(submissions);
+        }
+
+        function updateAdminStats(submissions) {
+            const stats = {
+                total: submissions.length,
+                pending: submissions.filter(s => s.status === 'pending').length,
+                approved: submissions.filter(s => s.status === 'approved').length,
+                rejected: submissions.filter(s => s.status === 'rejected').length
+            };
+            
+            localStorage.setItem('adminStats', JSON.stringify(stats));
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
         }
 
         // تحميل الأسئلة عند بدء الصفحة
