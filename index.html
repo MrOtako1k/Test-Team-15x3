@@ -496,11 +496,18 @@
             };
 
             if (validCredentials[username] && validCredentials[username] === password) {
-                // نجح تسجيل الدخول
-                alert('مرحباً ' + username + '! سيتم توجيهك للوحة التحكم...');
+                // حفظ اسم المستخدم
+                localStorage.setItem('adminName', username);
                 
-                // هنا يمكن إضافة توجيه للوحة تحكم الأدمن
-                // window.location.href = 'admin-dashboard.html';
+                // نجح تسجيل الدخول
+                // إخفاء الصفحة الحالية بتأثير انتقالي
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '0';
+                
+                // الانتقال للوحة تحكم الأدمن
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 500);
                 
                 closeAdminModal();
             } else {
@@ -512,7 +519,7 @@
             }
         }
 
-        // الذهاب للاستبيان - تم تحديث هذه الدالة
+        // الذهاب للاستبيان
         function goToSurvey() {
             // إخفاء الصفحة الحالية بتأثير انتقالي
             document.body.style.transition = 'opacity 0.5s ease';
