@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Team - الاستبيان التفاعلي المتطور</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            --success-gradient: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            --purple-gradient: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-xl: 0 35px 60px -12px rgba(0, 0, 0, 0.35);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: #0f0f23;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            direction: rtl;
+            line-height: 1.6;
+        }
+
+        /* خلفية ديناميكية ثلاثية الأبعاد */
+        .dynamic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(ellipse at top, #1e1b4b 0%, #0f0f23 70%);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(59, 130, 246, 0.2));
+            filter: blur(40px);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .floating-orb:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+
+        .floating-orb:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            right: -100px;
+            animation-delay: -7s;
+        }
+
+        .floating-orb:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            bottom: -200px;
+            left: 30%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+            25% { transform: translateY(-30px) translateX(20px) scale(1.1); }
+            50% { transform: translateY(20px) translateX(-20px) scale(0.9); }
+            75% { transform: translateY(-20px) translateX(30px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* هيدر مطور بتأثيرات متقدمة */
+        .header {
+            text-align: center;
+            padding: 80px 40px;
+            margin-bottom: 60px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px);
+            border-radius: 40px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent 0%, rgba(168, 85, 247, 0.1) 25%, transparent 50%, rgba(59, 130, 246, 0.1) 75%, transparent 100%);
+            animation: rotate 15s linear infinite;
+            z-index: -1;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            background: radial-gradient(ellipse at center, rgba(15, 15, 35, 0.9) 0%, rgba(15, 15, 35, 0.7) 100%);
+            border-radius: 39px;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #a855f7, #3b82f6, #06b6d4, #10b981);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            letter-spacing: -3px;
+            position: relative;
+            animation: textShimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes textShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .team-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-gradient);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .team-badge:hover::before {
+            left: 100%;
+        }
+
+        /* شبكة الأسئلة المطورة */
+        .content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .question-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border-radius: 32px;
+            padding: 40px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+            border-radius: 32px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .question-card:hover::before {
+            opacity: 1;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .question-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 12px 24px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-number::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.5;
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        /* قسم الإجابات المطور */
+        .answer-section {
+            margin-top: 30px;
+        }
+
+        .answer-options {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .answer-btn {
+            flex: 1;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 18px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .answer-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .answer-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .answer-btn:hover {
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(168, 85, 247, 0.2);
+        }
+
+        .answer-btn.selected {
+            background: var(--success-gradient);
+            border-color: #4ecdc4;
+            box-shadow: 0 15px 40px rgba(78, 205, 196, 0.4);
+            transform: scale(1.05);
+        }
+
+        .text-answer {
+            width: 100%;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .text-answer::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .text-answer:focus {
+            outline: none;
+            border-color: #a855f7;
+            box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.2);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* قسم الإرسال المطور */
+        .submit-section {
+            text-align: center;
+            margin: 80px 0;
+        }
+
+        .submit-btn {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 25px 60px;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 280px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.6);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366, #128C7E) !important;
+            box-shadow: 0 20px 40px rgba(37, 211, 102, 0.4) !important;
+        }
+
+        .whatsapp-btn:hover {
+            box-shadow: 0 30px 60px rgba(37, 211, 102, 0.6) !important;
+        }
+
+        /* قسم النتائج المطور */
+        .results {
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px);
+            border-radius: 40px;
+            padding: 50px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-xl);
+            display: none;
+            animation: slideUp 1s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .results::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #a855f7, #3b82f6, #06b6d4, #10b981);
+            background-size: 400% 400%;
+            border-radius: 42px;
+            z-index: -1;
+            animation: gradientShift 6s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .results h3 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .result-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(15px);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .result-question {
+            font-weight: 700;
+            color: #4ecdc4;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .result-answer {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* شريط التقدم المطور */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 6px;
+            background: linear-gradient(90deg, #a855f7, #3b82f6, #06b6d4);
+            z-index: 1000;
+            transition: width 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .logo {
+                font-size: 3.5rem;
+            }
+            
+            .question-card {
+                padding: 30px 25px;
+            }
+            
+            .answer-options {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                padding: 60px 30px;
+            }
+
+            .question-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+
+        /* تأثيرات إضافية للتفاعل */
+        .question-card {
+            cursor: pointer;
+        }
+
+        .question-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection styling */
+        ::selection {
+            background: rgba(168, 85, 247, 0.3);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="dynamic-bg"></div>
+    <div class="floating-elements">
+        <div class="floating-orb"></div>
+        <div class="floating-orb"></div>
+        <div class="floating-orb"></div>
+    </div>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="logo">TEST TEAM</div>
+            <div class="tagline">الاستبيان التفاعلي المتطور</div>
+            <div class="team-badge">
+                <span>✨</span>
+                15×3 EDITION
+                <span>🚀</span>
+            </div>
+        </div>
+        
+        <div class="content" id="questionsContainer">
+            <!-- الأسئلة ستتم إضافتها هنا -->
+        </div>
+        
+        <div class="submit-section">
+            <button class="submit-btn" onclick="showResults()" id="submitBtn">
+                🚀 عرض النتائج والإرسال
+            </button>
+        </div>
+        
+        <div class="results" id="results">
+            <h3>🎯 نتائج الاستبيان</h3>
+            <div id="resultsContent"></div>
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="submit-btn whatsapp-btn" onclick="sendToWhatsApp()">
+                    📱 إرسال عبر واتساب
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "هل تعتبر نفسك شخصاً مبدعاً في حل المشاكل؟",
+                type: "yes_no"
+            },
+            {
+                id: 2,
+                text: "ما هو أهم هدف تسعى لتحقيقه هذا العام؟",
+                type: "text"
+            },
+            {
+                id: 3,
+                text: "هل تفضل العمل الجماعي أم الفردي؟",
+                type: "yes_no"
+            },
+            {
+                id: 4,
+                text: "صف نفسك في ثلاث كلمات",
+                type: "text"
+            },
+            {
+                id: 5,
+                text: "هل تتابع آخر التطورات التقنية والتكنولوجية؟",
+                type: "yes_no"
+            },
+            {
+                id: 6,
+                text: "ما هي المهارة التي تود تعلمها أكثر؟",
+                type: "text"
+            },
+            {
+                id: 7,
+                text: "هل تحب التحديات والمغامرات الجديدة؟",
+                type: "yes_no"
+            },
+            {
+                id: 8,
+                text: "ما هو مصدر إلهامك الأكبر؟",
+                type: "text"
+            },
+            {
+                id: 9,
+                text: "هل تعتقد أن المستقبل سيكون أفضل من الحاضر؟",
+                type: "yes_no"
+            },
+            {
+                id: 10,
+                text: "ما هي رسالتك للعالم؟",
+                type: "text"
+            }
+        ];
+
+        let answers = {};
+        let totalQuestions = questions.length;
+
+        function updateProgress() {
+            const answeredCount = Object.keys(answers).length;
+            const progress = (answeredCount / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            
+            questions.forEach((question, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                questionCard.style.animationDelay = `${index * 0.1}s`;
+                
+                let answerSection = '';
+                if (question.type === 'yes_no') {
+                    answerSection = `
+                        <div class="answer-section">
+                            <div class="answer-options">
+                                <button class="answer-btn" onclick="selectAnswer(${question.id}, 'نعم', this)">
+                                    ✅ نعم
+                                </button>
+                                <button class="answer-btn" onclick="selectAnswer(${question.id}, 'لا', this)">
+                                    ❌ لا
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    answerSection = `
+                        <div class="answer-section">
+                            <textarea class="text-answer" 
+                                    placeholder="شاركنا أفكارك المبدعة هنا... ✨" 
+                                    onchange="setTextAnswer(${question.id}, this.value)"
+                                    oninput="setTextAnswer(${question.id}, this.value)"></textarea>
+                        </div>
+                    `;
+                }
+                
+                questionCard.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">${question.id}</div>
+                        <div class="question-text">${question.text}</div>
+                    </div>
+                    ${answerSection}
+                `;
+                
+                container.appendChild(questionCard);
+            });
+        }
+
+        function selectAnswer(questionId, answer, button) {
+            const questionCard = button.closest('.question-card');
+            const allButtons = questionCard.querySelectorAll('.answer-btn');
+            allButtons.forEach(btn => btn.classList.remove('selected'));
+            
+            button.classList.add('selected');
+            answers[questionId] = answer;
+            updateProgress();
+            
+            // إضافة تأثير اهتزاز خفيف
+            button.style.animation = 'none';
+            setTimeout(() => {
+                button.style.animation = 'selectedPulse 0.6s ease';
+            }, 10);
+        }
+
+        function setTextAnswer(questionId, answer) {
+            if (answer.trim()) {
+                answers[questionId] = answer.trim();
+            } else {
+                delete answers[questionId];
+            }
+            updateProgress();
+        }
+
+        function showResults() {
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // التحقق من الإجابات
+            let unanswered = [];
+            questions.forEach(q => {
+                if (!answers[q.id] || answers[q.id] === '') {
+                    unanswered.push(q.id);
+                }
+            });
+
+            if (unanswered.length > 0) {
+                // تأثير اهتزاز للأسئلة غير المجابة
+                unanswered.forEach(qId => {
+                    const card = document.querySelector(`.question-card:nth-child(${qId})`);
+                    if (card) {
+                        card.style.animation = 'shake 0.5s ease-in-out';
+                        setTimeout(() => {
+                            card.style.animation = '';
+                        }, 500);
+                    }
+                });
+                
+                alert(`⚠️ يرجى إكمال جميع الأسئلة المتبقية: ${unanswered.join(', ')}`);
+                return;
+            }
+
+            // إظهار تأثير التحميل
+            submitBtn.innerHTML = '<span class="loading"></span>جاري التحضير...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                // عرض النتائج
+                const resultsDiv = document.getElementById('results');
+                const resultsContent = document.getElementById('resultsContent');
+                
+                resultsContent.innerHTML = '';
+                
+                questions.forEach((question, index) => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    resultItem.style.animationDelay = `${index * 0.1}s`;
+                    resultItem.innerHTML = `
+                        <div class="result-question">السؤال ${question.id}: ${question.text}</div>
+                        <div class="result-answer">${answers[question.id]}</div>
+                    `;
+                    resultsContent.appendChild(resultItem);
+                });
+                
+                resultsDiv.style.display = 'block';
+                resultsDiv.scrollIntoView({ behavior: 'smooth' });
+                
+                // استعادة الزر
+                submitBtn.innerHTML = '✅ تم الإرسال بنجاح';
+                
+                // إرسال تلقائي للواتساب
+                setTimeout(() => {
+                    sendToWhatsApp();
+                }, 1500);
+                
+            }, 2500);
+        }
+
+        function sendToWhatsApp() {
+            let message = "🚀 *TEST TEAM - نتائج الاستبيان التفاعلي*\n";
+            message += "📊 *15×3 EDITION*\n\n";
+            
+            questions.forEach(question => {
+                message += `❓ *السؤال ${question.id}:* ${question.text}\n`;
+                message += `💬 *الإجابة:* ${answers[question.id]}\n\n`;
+            });
+            
