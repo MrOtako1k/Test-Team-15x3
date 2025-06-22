@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEST TEAM - لوحة تحكم الأدمن</title>
+    <title>TEST TEAM - لوحة تحكم الأدمن المتطورة</title>
     <style>
         * {
             margin: 0;
@@ -18,9 +18,10 @@
             min-height: 100vh;
             direction: rtl;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* خلفية متحركة حديثة */
+        /* خلفية متحركة متطورة */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -28,11 +29,59 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 15% 85%, rgba(102, 126, 234, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 85% 15%, rgba(118, 75, 162, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(240, 147, 251, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 30% 30%, rgba(255, 107, 107, 0.2) 0%, transparent 50%),
                 linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            z-index: -2;
+            animation: gradientShift 25s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            33% { opacity: 0.8; }
+            66% { opacity: 0.9; }
+        }
+
+        /* شبكة ثلاثية الأبعاد */
+        .grid-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
+            opacity: 0.1;
+            perspective: 1000px;
+        }
+
+        .grid-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(102, 126, 234, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(102, 126, 234, 0.2) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        .grid-layer:nth-child(2) {
+            animation-delay: -10s;
+            opacity: 0.5;
+            transform: rotateX(45deg);
+        }
+
+        .grid-layer:nth-child(3) {
+            animation-delay: -15s;
+            opacity: 0.3;
+            transform: rotateY(45deg);
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
         }
 
         .particles {
@@ -46,13 +95,25 @@
 
         .particle {
             position: absolute;
-            width: 3px;
-            height: 3px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #ff6b6b);
             border-radius: 50%;
-            animation: float 8s infinite linear;
-            opacity: 0.6;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+            animation: float 15s infinite linear;
+            opacity: 0.8;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .particle.large {
+            width: 8px;
+            height: 8px;
+            animation-duration: 20s;
+        }
+
+        .particle.medium {
+            width: 6px;
+            height: 6px;
+            animation-duration: 18s;
         }
 
         @keyframes float {
@@ -61,11 +122,11 @@
                 opacity: 0;
             }
             10% {
-                opacity: 0.6;
+                opacity: 0.8;
                 transform: scale(1);
             }
             90% {
-                opacity: 0.6;
+                opacity: 0.8;
             }
             100% {
                 transform: translateY(-100vh) rotate(360deg) scale(0);
@@ -73,22 +134,22 @@
             }
         }
 
-        /* Header */
+        /* Header متطور */
         .header {
             background: rgba(15, 15, 15, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
-            padding: 20px 0;
+            backdrop-filter: blur(25px);
+            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
+            padding: 25px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
         }
 
         .header-content {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 0 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -97,88 +158,149 @@
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 30px;
         }
 
         .logo {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
+            animation: gradientAnimation 8s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .admin-badge {
             background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .admin-badge:hover::before {
+            left: 100%;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
         .user-avatar {
-            width: 45px;
-            height: 45px;
+            width: 55px;
+            height: 55px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            font-size: 1.5rem;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: avatarShine 3s ease-in-out infinite;
+        }
+
+        @keyframes avatarShine {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
         }
 
         .logout-btn {
             background: rgba(26, 26, 26, 0.8);
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            border: 2px solid rgba(102, 126, 234, 0.3);
             color: white;
-            padding: 12px 24px;
-            border-radius: 15px;
+            padding: 15px 30px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1rem;
+            font-weight: 700;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
         .logout-btn:hover {
             border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-            transform: translateY(-2px);
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .logout-btn:hover::before {
+            left: 100%;
         }
 
         /* Main Content */
         .main-content {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
-            padding: 40px 30px;
+            padding: 50px 40px;
         }
 
-        /* Stats Cards */
+        /* Stats Cards متطورة */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
         }
 
         .stat-card {
-            background: rgba(26, 26, 26, 0.6);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 25px;
-            padding: 35px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid transparent;
+            border-radius: 30px;
+            padding: 45px;
             text-align: center;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(25px);
             position: relative;
             overflow: hidden;
         }
@@ -190,254 +312,425 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.1) 0%, 
+                rgba(118, 75, 162, 0.1) 50%, 
+                rgba(240, 147, 251, 0.1) 100%);
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
+            border-radius: 30px;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            border-radius: 30px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
         .stat-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(102, 126, 234, 0.5);
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 30px 80px rgba(102, 126, 234, 0.3);
         }
 
         .stat-card:hover::before {
             opacity: 1;
         }
 
+        .stat-card:hover::after {
+            opacity: 1;
+        }
+
         .stat-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 25px;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 35px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: rotateY(180deg) scale(1.1);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.6);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            animation: numberPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: #ddd;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Submissions Section متطورة */
+        .submissions-section {
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 30px;
+            padding: 50px;
+            backdrop-filter: blur(25px);
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submissions-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.05) 0%, 
+                rgba(118, 75, 162, 0.05) 50%, 
+                rgba(240, 147, 251, 0.05) 100%);
+            border-radius: 30px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 40px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 80px;
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+            border-radius: 2px;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            font-size: 1.8rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            animation: iconFloat 4s ease-in-out infinite;
         }
 
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
 
-        .stat-label {
-            font-size: 1.1rem;
-            color: #ccc;
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Submissions Section */
-        .submissions-section {
-            background: rgba(26, 26, 26, 0.6);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 25px;
-            padding: 40px;
-            backdrop-filter: blur(20px);
-            margin-bottom: 40px;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 35px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .section-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        /* Filters */
+        /* Filters متطورة */
         .filters-container {
             display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 25px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
         }
 
         .filter-btn {
             background: rgba(26, 26, 26, 0.8);
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            border: 2px solid rgba(102, 126, 234, 0.3);
             color: white;
-            padding: 12px 24px;
-            border-radius: 15px;
+            padding: 15px 30px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1rem;
+            font-weight: 700;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
         .filter-btn:hover,
         .filter-btn.active {
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-color: transparent;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
-        /* Submissions Grid */
+        .filter-btn:hover::before,
+        .filter-btn.active::before {
+            left: 100%;
+        }
+
+        /* Submissions Grid متطورة */
         .submissions-grid {
             display: grid;
-            gap: 25px;
+            gap: 35px;
+            position: relative;
+            z-index: 1;
         }
 
         .submission-card {
-            background: rgba(15, 15, 15, 0.8);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 20px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            background: rgba(15, 15, 15, 0.9);
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 25px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.05) 0%, 
+                rgba(118, 75, 162, 0.05) 50%, 
+                rgba(240, 147, 251, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 25px;
         }
 
         .submission-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-8px);
             border-color: rgba(102, 126, 234, 0.5);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 25px 60px rgba(102, 126, 234, 0.2);
+        }
+
+        .submission-card:hover::before {
+            opacity: 1;
         }
 
         .submission-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
         }
 
         .submission-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .submission-avatar {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 800;
             color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submission-avatar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: avatarShine 4s ease-in-out infinite;
         }
 
         .submission-details h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 8px;
         }
 
         .submission-meta {
-            color: #888;
-            font-size: 0.9rem;
+            color: #999;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         .status-badge {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 800;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: statusShine 3s ease-in-out infinite;
+        }
+
+        @keyframes statusShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .status-pending {
             background: rgba(255, 193, 7, 0.2);
             color: #ffc107;
-            border: 1px solid rgba(255, 193, 7, 0.5);
+            border: 2px solid rgba(255, 193, 7, 0.5);
         }
 
         .status-approved {
             background: rgba(76, 175, 80, 0.2);
             color: #4caf50;
-            border: 1px solid rgba(76, 175, 80, 0.5);
+            border: 2px solid rgba(76, 175, 80, 0.5);
         }
 
         .status-rejected {
             background: rgba(244, 67, 54, 0.2);
             color: #f44336;
-            border: 1px solid rgba(244, 67, 54, 0.5);
+            border: 2px solid rgba(244, 67, 54, 0.5);
         }
 
         /* Submission Content */
         .submission-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
         .answer-group {
-            background: rgba(26, 26, 26, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(102, 126, 234, 0.1);
+            background: rgba(26, 26, 26, 0.6);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .answer-group:hover {
+            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
         }
 
         .question-text {
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 8px;
-            font-weight: 600;
+            font-size: 1rem;
+            color: #999;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
 
         .answer-text {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #fff;
-            font-weight: 500;
-            line-height: 1.4;
+            font-weight: 600;
+            line-height: 1.6;
         }
 
-        /* Actions */
+        /* Actions متطورة */
         .submission-actions {
             display: flex;
-            gap: 12px;
+            gap: 15px;
             justify-content: flex-end;
-            padding-top: 20px;
-            border-top: 1px solid rgba(102, 126, 234, 0.2);
+            padding-top: 25px;
+            border-top: 2px solid rgba(102, 126, 234, 0.2);
         }
 
         .action-btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             border: none;
             color: white;
-            padding: 10px 20px;
-            border-radius: 12px;
+            padding: 12px 25px;
+            border-radius: 15px;
             cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
         .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
         }
 
         .action-btn.approve {
@@ -452,7 +745,19 @@
             background: linear-gradient(135deg, #2196f3, #1976d2);
         }
 
-        /* Modal */
+        .action-btn.approve:hover {
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+        }
+
+        .action-btn.reject:hover {
+            box-shadow: 0 12px 35px rgba(244, 67, 54, 0.5);
+        }
+
+        .action-btn.view:hover {
+            box-shadow: 0 12px 35px rgba(33, 150, 243, 0.5);
+        }
+
+        /* Modal متطور */
         .modal {
             display: none;
             position: fixed;
@@ -460,9 +765,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 1000;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+            animation: modalFadeIn 0.4s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
@@ -471,92 +782,131 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(26, 26, 26, 0.95);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-radius: 25px;
-            padding: 40px;
-            max-width: 800px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 900px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+            animation: modalSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
         }
 
         .modal-title {
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 800;
             color: #667eea;
+            position: relative;
+        }
+
+        .modal-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, transparent);
+            border-radius: 2px;
         }
 
         .close-btn {
             background: none;
             border: none;
-            color: #888;
-            font-size: 2rem;
+            color: #999;
+            font-size: 2.5rem;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .close-btn:hover {
             color: #fff;
+            background: rgba(102, 126, 234, 0.2);
+            transform: rotate(90deg);
         }
 
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
-            color: #888;
+            padding: 80px 20px;
+            color: #999;
         }
 
         .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
+            font-size: 5rem;
+            margin-bottom: 30px;
             opacity: 0.5;
+            animation: emptyFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes emptyFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         .empty-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
         }
 
         .empty-message {
-            font-size: 1rem;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            line-height: 1.8;
         }
 
-        /* Responsive */
+        /* Responsive متطور */
         @media (max-width: 768px) {
             .header-content {
-                padding: 0 20px;
+                padding: 0 25px;
                 flex-direction: column;
-                gap: 15px;
+                gap: 20px;
             }
 
             .main-content {
-                padding: 30px 20px;
+                padding: 40px 25px;
             }
 
             .stats-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 25px;
             }
 
             .submissions-section {
-                padding: 25px 20px;
+                padding: 35px 25px;
             }
 
             .submission-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
+                gap: 20px;
             }
 
             .submission-content {
@@ -573,14 +923,37 @@
             }
 
             .modal-content {
-                padding: 30px 20px;
+                padding: 40px 25px;
                 width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .submission-card {
+                padding: 30px 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="bg-gradient"></div>
+    <div class="grid-3d">
+        <div class="grid-layer"></div>
+        <div class="grid-layer"></div>
+        <div class="grid-layer"></div>
+    </div>
     <div class="particles" id="particles"></div>
 
     <!-- Header -->
@@ -588,7 +961,7 @@
         <div class="header-content">
             <div class="logo-section">
                 <div class="logo">TEST TEAM</div>
-                <div class="admin-badge">لوحة تحكم الأدمن</div>
+                <div class="admin-badge">لوحة تحكم الأدمن المتطورة</div>
             </div>
             <div class="user-info">
                 <div class="user-avatar">👑</div>
@@ -628,7 +1001,7 @@
         <div class="submissions-section">
             <h2 class="section-title">
                 <div class="section-icon">📊</div>
-                طلبات الانضمام
+                طلبات الانضمام المتقدمة
             </h2>
             
             <!-- Filters -->
@@ -650,7 +1023,7 @@
     <div class="modal" id="detailsModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">تفاصيل الطلب</h3>
+                <h3 class="modal-title">تفاصيل الطلب الكاملة</h3>
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
             <div id="modalBody">
@@ -678,17 +1051,26 @@
         let currentFilter = 'all';
         let submissions = [];
 
-        // إنشاء الجسيمات المتحركة
+        // إنشاء الجسيمات المتحركة المحسنة
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 40;
+            const particleCount = 50;
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
-                particle.className = 'particle';
+                const size = Math.random();
+                
+                if (size < 0.3) {
+                    particle.className = 'particle';
+                } else if (size > 0.7) {
+                    particle.className = 'particle large';
+                } else {
+                    particle.className = 'particle medium';
+                }
+                
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.animationDuration = (Math.random() * 6 + 8) + 's';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
                 particlesContainer.appendChild(particle);
             }
         }
@@ -743,7 +1125,7 @@
                     
                     <div class="submission-content">
                         <div class="answer-group">
-                            <div class="question-text">المهارات</div>
+                            <div class="question-text">المهارات والخبرات</div>
                             <div class="answer-text">${submission.skills}</div>
                         </div>
                         <div class="answer-group">
@@ -755,21 +1137,21 @@
                             <div class="answer-text">${submission.studyField}</div>
                         </div>
                         <div class="answer-group">
-                            <div class="question-text">الرسالة</div>
+                            <div class="question-text">الرسالة الشخصية</div>
                             <div class="answer-text">${submission.message}</div>
                         </div>
                     </div>
                     
                     <div class="submission-actions">
                         <button class="action-btn view" onclick="viewSubmission(${submission.id})">
-                            عرض التفاصيل
+                            عرض التفاصيل الكاملة
                         </button>
                         ${submission.status === 'pending' ? `
                             <button class="action-btn approve" onclick="approveSubmission(${submission.id})">
-                                قبول
+                                قبول الطلب
                             </button>
                             <button class="action-btn reject" onclick="rejectSubmission(${submission.id})">
-                                رفض
+                                رفض الطلب
                             </button>
                         ` : ''}
                     </div>
@@ -809,19 +1191,19 @@
             
             const modalBody = document.getElementById('modalBody');
             modalBody.innerHTML = `
-                <div style="margin-bottom: 30px;">
-                    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 25px;">
-                        <div class="submission-avatar" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                <div style="margin-bottom: 40px;">
+                    <div style="display: flex; align-items: center; gap: 25px; margin-bottom: 30px;">
+                        <div class="submission-avatar" style="width: 80px; height: 80px; font-size: 2rem;">
                             ${submission.name.charAt(0)}
                         </div>
                         <div>
-                            <h3 style="font-size: 1.5rem; margin-bottom: 5px;">${submission.name}</h3>
-                            <div style="color: #888;">رقم المرجع: ${submission.reference}</div>
+                            <h3 style="font-size: 1.8rem; margin-bottom: 8px;">${submission.name}</h3>
+                            <div style="color: #999; font-size: 1.1rem;">رقم المرجع: ${submission.reference}</div>
                         </div>
                     </div>
                 </div>
                 
-                <div style="display: grid; gap: 20px;">
+                <div style="display: grid; gap: 25px;">
                     ${questions.map((question, index) => {
                         const answers = [
                             submission.name,
@@ -848,7 +1230,7 @@
                 </div>
                 
                 ${submission.status === 'pending' ? `
-                    <div style="display: flex; gap: 15px; margin-top: 30px; justify-content: center;">
+                    <div style="display: flex; gap: 20px; margin-top: 40px; justify-content: center;">
                         <button class="action-btn approve" onclick="approveSubmission(${submission.id}); closeModal();">
                             قبول الطلب
                         </button>
@@ -876,7 +1258,7 @@
                     localStorage.setItem('adminSubmissions', JSON.stringify(submissions));
                     renderSubmissions(currentFilter);
                     updateStats();
-                    alert('تم قبول الطلب بنجاح!');
+                    alert('تم قبول الطلب بنجاح! 🎉');
                 }
             }
         }
