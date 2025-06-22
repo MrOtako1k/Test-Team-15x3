@@ -509,6 +509,29 @@
             color: #fff;
         }
 
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .empty-message {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -581,22 +604,22 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">📋</div>
-                <div class="stat-number" id="totalSubmissions">15</div>
+                <div class="stat-number" id="totalSubmissions">0</div>
                 <div class="stat-label">إجمالي الطلبات</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">⏳</div>
-                <div class="stat-number" id="pendingSubmissions">8</div>
+                <div class="stat-number" id="pendingSubmissions">0</div>
                 <div class="stat-label">قيد المراجعة</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">✅</div>
-                <div class="stat-number" id="approvedSubmissions">5</div>
+                <div class="stat-number" id="approvedSubmissions">0</div>
                 <div class="stat-label">تم القبول</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">❌</div>
-                <div class="stat-number" id="rejectedSubmissions">2</div>
+                <div class="stat-number" id="rejectedSubmissions">0</div>
                 <div class="stat-label">تم الرفض</div>
             </div>
         </div>
@@ -637,95 +660,6 @@
     </div>
 
     <script>
-        // بيانات وهمية للطلبات
-        const submissions = [
-            {
-                id: 1,
-                name: "أحمد محمد علي",
-                age: "22",
-                previousTeam: "نعم",
-                device: "PC",
-                skills: "برمجة Python، تطوير ويب، تصميم UI/UX",
-                teamRole: "مطور واجهات أمامية",
-                gamesDeveloped: "نعم",
-                studyField: "هندسة البرمجيات",
-                commitment: "نعم",
-                message: "أتطلع للانضمام لفريق محترف ومشاركة خبراتي في التطوير",
-                keepTag: "نعم",
-                status: "pending",
-                date: "2025-01-15",
-                reference: "15X3-12345678"
-            },
-            {
-                id: 2,
-                name: "فاطمة الزهراء",
-                age: "20",
-                previousTeam: "لا",
-                device: "MOBILE",
-                skills: "تصميم جرافيك، Photoshop، Illustrator",
-                teamRole: "مصممة جرافيك",
-                gamesDeveloped: "لا",
-                studyField: "تصميم جرافيك",
-                commitment: "نعم",
-                message: "أريد تطوير مهاراتي في التصميم والعمل مع فريق إبداعي",
-                keepTag: "نعم",
-                status: "approved",
-                date: "2025-01-14",
-                reference: "15X3-87654321"
-            },
-            {
-                id: 3,
-                name: "محمد حسن",
-                age: "25",
-                previousTeam: "نعم",
-                device: "PC",
-                skills: "تطوير الألعاب، Unity، C#",
-                teamRole: "مطور ألعاب",
-                gamesDeveloped: "نعم",
-                studyField: "علوم الحاسوب",
-                commitment: "لا",
-                message: "لدي خبرة في تطوير الألعاب وأريد المساهمة في مشاريع جديدة",
-                keepTag: "نعم",
-                status: "rejected",
-                date: "2025-01-13",
-                reference: "15X3-11223344"
-            },
-            {
-                id: 4,
-                name: "سارة أحمد",
-                age: "19",
-                previousTeam: "لا",
-                device: "PC",
-                skills: "برمجة Python، تحليل البيانات",
-                teamRole: "محللة بيانات",
-                gamesDeveloped: "لا",
-                studyField: "الرياضيات والإحصاء",
-                commitment: "نعم",
-                message: "أحب العمل مع البيانات وأريد تعلم المزيد في هذا المجال",
-                keepTag: "نعم",
-                status: "pending",
-                date: "2025-01-12",
-                reference: "15X3-55667788"
-            },
-            {
-                id: 5,
-                name: "عمر خالد",
-                age: "23",
-                previousTeam: "نعم",
-                device: "PC",
-                skills: "تطوير تطبيقات الويب، React، Node.js",
-                teamRole: "مطور Full Stack",
-                gamesDeveloped: "نعم",
-                studyField: "هندسة الحاسوب",
-                commitment: "نعم",
-                message: "لدي شغف بالتطوير وأريد العمل على مشاريع مبتكرة",
-                keepTag: "نعم",
-                status: "approved",
-                date: "2025-01-11",
-                reference: "15X3-99887766"
-            }
-        ];
-
         const questions = [
             "ACHENO SMIYTEK؟",
             "CHE7AL F3EMREK",
@@ -741,6 +675,7 @@
         ];
 
         let currentFilter = 'all';
+        let submissions = [];
 
         // إنشاء الجسيمات المتحركة
         function createParticles() {
@@ -757,12 +692,32 @@
             }
         }
 
+        // تحميل الطلبات من localStorage
+        function loadSubmissions() {
+            submissions = JSON.parse(localStorage.getItem('adminSubmissions') || '[]');
+            renderSubmissions();
+            updateStats();
+        }
+
         // عرض الطلبات
         function renderSubmissions(filter = 'all') {
             const grid = document.getElementById('submissionsGrid');
             const filteredSubmissions = filter === 'all' ? submissions : submissions.filter(s => s.status === filter);
             
             grid.innerHTML = '';
+            
+            if (filteredSubmissions.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <div class="empty-title">لا توجد طلبات</div>
+                        <div class="empty-message">
+                            ${filter === 'all' ? 'لم يتم استلام أي طلبات بعد' : `لا توجد طلبات ${getStatusText(filter)}`}
+                        </div>
+                    </div>
+                `;
+                return;
+            }
             
             filteredSubmissions.forEach(submission => {
                 const card = document.createElement('div');
@@ -913,9 +868,10 @@
         // قبول الطلب
         function approveSubmission(id) {
             if (confirm('هل أنت متأكد من قبول هذا الطلب؟')) {
-                const submission = submissions.find(s => s.id === id);
-                if (submission) {
-                    submission.status = 'approved';
+                const submissionIndex = submissions.findIndex(s => s.id === id);
+                if (submissionIndex !== -1) {
+                    submissions[submissionIndex].status = 'approved';
+                    localStorage.setItem('adminSubmissions', JSON.stringify(submissions));
                     renderSubmissions(currentFilter);
                     updateStats();
                     alert('تم قبول الطلب بنجاح!');
@@ -926,9 +882,10 @@
         // رفض الطلب
         function rejectSubmission(id) {
             if (confirm('هل أنت متأكد من رفض هذا الطلب؟')) {
-                const submission = submissions.find(s => s.id === id);
-                if (submission) {
-                    submission.status = 'rejected';
+                const submissionIndex = submissions.findIndex(s => s.id === id);
+                if (submissionIndex !== -1) {
+                    submissions[submissionIndex].status = 'rejected';
+                    localStorage.setItem('adminSubmissions', JSON.stringify(submissions));
                     renderSubmissions(currentFilter);
                     updateStats();
                     alert('تم رفض الطلب.');
@@ -975,12 +932,19 @@
             }
         }
 
+        // تحديث الطلبات كل 5 ثوانٍ
+        function autoRefresh() {
+            loadSubmissions();
+        }
+
         // تحميل الصفحة
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
             setAdminName();
-            renderSubmissions();
-            updateStats();
+            loadSubmissions();
+            
+            // تحديث تلقائي كل 5 ثوانٍ
+            setInterval(autoRefresh, 5000);
         });
     </script>
 </body>
