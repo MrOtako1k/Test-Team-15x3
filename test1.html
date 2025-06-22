@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Team - الاستبيان</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            min-height: 100vh;
+            direction: rtl;
+            line-height: 1.6;
+        }
+
+        /* خلفية بسيطة */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: #a0a0a0;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .team-badge {
+            display: inline-block;
+            background: #667eea;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: #2a2a2a;
+            border-radius: 2px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Questions */
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .question-card {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .question-number {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-left: 20px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        /* Answer Options */
+        .answer-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .answer-btn {
+            flex: 1;
+            background: #2a2a2a;
+            border: 2px solid #404040;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .answer-btn:hover {
+            border-color: #667eea;
+            background: #333;
+        }
+
+        .answer-btn.selected {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        .text-answer {
+            width: 100%;
+            background: #2a2a2a;
+            border: 2px solid #404040;
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 80px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .text-answer::placeholder {
+            color: #888;
+        }
+
+        .text-answer:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #333;
+        }
+
+        /* Submit Section */
+        .submit-section {
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success Screen */
+        .success-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+        }
+
+        .success-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            background: #1a1a1a;
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 1px solid #333;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 2.5rem;
+        }
+
+        .success-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        .success-message {
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .status-info {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: right;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .status-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-label {
+            color: #888;
+        }
+
+        .status-value {
+            color: white;
+            font-weight: 600;
+        }
+
+        .reference-box {
+            background: #0a0a0a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+            border: 1px solid #333;
+        }
+
+        .reference-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .reference-value {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #667eea;
+            letter-spacing: 1px;
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .questions-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .question-card {
+                padding: 25px 20px;
+            }
+            
+            .answer-options {
+                flex-direction: column;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+
+            .header {
+                padding: 40px 0;
+            }
+
+            .success-content {
+                padding: 40px 30px;
+                width: 95%;
+            }
+
+            .success-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <div class="container" id="surveyContainer">
+        <div class="header">
+            <div class="logo">TEST TEAM</div>
+            <div class="tagline">الاستبيان التفاعلي</div>
+            <div class="team-badge">15x3 EDITION</div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="questions-grid" id="questionsContainer">
+            <!-- الأسئلة ستتم إضافتها هنا -->
+        </div>
+        
+        <div class="submit-section">
+            <button class="submit-btn" onclick="submitSurvey()" id="submitBtn">
+                إرسال الطلب
+            </button>
+        </div>
+    </div>
+
+    <!-- شاشة النجاح -->
+    <div class="success-screen" id="successScreen">
+        <div class="success-content">
+            <div class="success-icon">✓</div>
+            
+            <h2 class="success-title">تم إرسال طلبك بنجاح!</h2>
+            
+            <p class="success-message">
+                شكراً لك على إكمال الاستبيان. سيتم مراجعة طلبك قريباً.
+            </p>
+
+            <div class="status-info">
+                <div class="status-row">
+                    <span class="status-label">حالة الطلب:</span>
+                    <span class="status-value">قيد المراجعة</span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label">تاريخ الإرسال:</span>
+                    <span class="status-value" id="submissionDate"></span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label">الفريق:</span>
+                    <span class="status-value">TEST TEAM - 15x3</span>
+                </div>
+            </div>
+
+            <div class="reference-box">
+                <div class="reference-label">رقم المرجع:</div>
+                <div class="reference-value" id="referenceNumber"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "ACHENO SMIYTEK؟",
+                type: "text"
+            },
+            {
+                id: 2,
+                text: "CHE7AL F3EMREK",
+                type: "text"
+            },
+            {
+                id: 3,
+                text: "WACHE KENTI DA5EL M3A CHI TEAM O5ERA؟",
+                type: "yes_no"
+            },
+            {
+                id: 4,
+                text: "ACHEMEN JIHAZ 3ENDEK",
+                type: "PC_MOBILE"
+            },
+            {
+                id: 5,
+                text: "ACHENO KAT3ERF DIR",
+                type: "text"
+            },
+            {
+                id: 6,
+                text: "ACHE NAHIYA TEAM LI KENTI DA5OL M3AHA",
+                type: "text"
+            },
+            {
+                id: 7,
+                text: "WACHE FAYT LIK DEVLOPETI CHI L3AYBA",
+                type: "yes_no"
+            },
+            {
+                id: 8,
+                text: "ACHE NAHOWA MASAR DIRASI DYALK",
+                type: "text"
+            },
+            {
+                id: 9,
+                text: "WACHE KAT3ETA9ED ILA D5OLTI AL HAD TEAM WACHE HATSTAMR FIHA",
+                type: "yes_no"
+            },
+            {
+                id: 10,
+                text: "ACHE NAHIYA RISALA DYALK LI BITI TWOJHEHA AL MASEOLIN",
+                type: "text"
+            },
+            {
+                id: 11,
+                text: "WACHE HATB9A DAYMAN DAYR TAG 15x3 LILABADE",
+                type: "yes_no"
+            }
+        ];
+
+        let answers = {};
+        let totalQuestions = questions.length;
+
+        function updateProgress() {
+            const answeredCount = Object.keys(answers).length;
+            const progress = (answeredCount / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            
+            questions.forEach(question => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                
+                let answerSection = '';
+                if (question.type === 'yes_no') {
+                    answerSection = `
+                        <div class="answer-options">
+                            <button class="answer-btn" onclick="selectAnswer(${question.id}, 'نعم', this)">
+                                نعم
+                            </button>
+                            <button class="answer-btn" onclick="selectAnswer(${question.id}, 'لا', this)">
+                                لا
+                            </button>
+                        </div>
+                    `;
+                } else if (question.type === 'PC_MOBILE') {
+                    answerSection = `
+                        <div class="answer-options">
+                            <button class="answer-btn" onclick="selectAnswer(${question.id}, 'PC', this)">
+                                PC
+                            </button>
+                            <button class="answer-btn" onclick="selectAnswer(${question.id}, 'MOBILE', this)">
+                                MOBILE
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    answerSection = `
+                        <textarea class="text-answer" 
+                                placeholder="اكتب إجابتك هنا..." 
+                                onchange="setTextAnswer(${question.id}, this.value)"></textarea>
+                    `;
+                }
+                
+                questionCard.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">${question.id}</div>
+                        <div class="question-text">${question.text}</div>
+                    </div>
+                    ${answerSection}
+                `;
+                
+                container.appendChild(questionCard);
+            });
+        }
+
+        function selectAnswer(questionId, answer, button) {
+            const questionCard = button.closest('.question-card');
+            const allButtons = questionCard.querySelectorAll('.answer-btn');
+            allButtons.forEach(btn => btn.classList.remove('selected'));
+            
+            button.classList.add('selected');
+            answers[questionId] = answer;
+            updateProgress();
+        }
+
+        function setTextAnswer(questionId, answer) {
+            if (answer.trim()) {
+                answers[questionId] = answer.trim();
+            } else {
+                delete answers[questionId];
+            }
+            updateProgress();
+        }
+
+        function submitSurvey() {
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // التحقق من الإجابات
+            let unanswered = [];
+            questions.forEach(q => {
+                if (!answers[q.id] || answers[q.id] === '') {
+                    unanswered.push(q.id);
+                }
+            });
+
+            if (unanswered.length > 0) {
+                alert(`يرجى إكمال جميع الأسئلة المتبقية: ${unanswered.join(', ')}`);
+                return;
+            }
+
+            // إظهار تأثير التحميل
+            submitBtn.innerHTML = 'جاري الإرسال...<span class="loading"></span>';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                // إخفاء الاستبيان وإظهار شاشة النجاح
+                document.getElementById('surveyContainer').style.display = 'none';
+                
+                // تحديث التاريخ ورقم المرجع
+                const now = new Date();
+                document.getElementById('submissionDate').textContent = now.toLocaleDateString('ar-SA');
+                document.getElementById('referenceNumber').textContent = `15X3-${Date.now().toString().slice(-8)}`;
+                
+                // إظهار شاشة النجاح
+                document.getElementById('successScreen').style.display = 'block';
+                
+            }, 2000);
+        }
+
+        // تحميل الأسئلة عند بدء الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuestions();
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
