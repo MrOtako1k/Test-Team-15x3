@@ -671,8 +671,8 @@
             "ACHE NAHOWA MASAR DIRASI DYALK",
             "WACHE KAT3ETA9ED ILA D5OLTI AL HAD TEAM WACHE HATSTAMR FIHA",
             "ACHE NAHIYA RISALA DYALK LI BITI TWOJHEHA AL MASEOLIN",
-            "WACHE HATB9A DAYMAN DAYR TAG 15x3 LILABADE"
-            "3TINA NMRA DYALK BACHE ANTWASLO M3AKE
+            "WACHE HATB9A DAYMAN DAYR TAG 15x3 LILABADE",
+            "3TINA NMRA DYALK BACHE ANTWASLO M3AKE"
         ];
 
         let currentFilter = 'all';
@@ -834,7 +834,8 @@
                             submission.studyField,
                             submission.commitment,
                             submission.message,
-                            submission.keepTag
+                            submission.keepTag,
+                            submission.answers[12] || 'غير محدد'
                         ];
                         
                         return `
