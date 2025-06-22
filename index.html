@@ -632,4 +632,78 @@
                 // عرض النتائج
                 const resultsDiv = document.getElementById('results');
                 const resultsContent = document.getElementById('resultsContent');
+                
+                resultsContent.innerHTML = '';
+                
+                questions.forEach(question => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    resultItem.innerHTML = `
+                        <div class="result-question">السؤال ${question.id}: ${question.text}</div>
+                        <div class="result-answer">${answers[question.id]}</div>
+                    `;
+                    resultsContent.appendChild(resultItem);
+                });
+                
+                resultsDiv.style.display = 'block';
+                resultsDiv.scrollIntoView({ behavior: 'smooth' });
+                
+                // استعادة الزر
+                submitBtn.innerHTML = '✅ تم الإرسال بنجاح';
+                
+                // إرسال تلقائي للواتساب
+                setTimeout(() => {
+                    sendToWhatsApp();
+                }, 1000);
+                
+            }, 2000);
+        }
+
+        function sendToWhatsApp() {
+            let message = "🚀 *TEST TEAM - نتائج الاستبيان التفاعلي*\n";
+            message += "📊 *15×3 EDITION*\n\n";
             
+            questions.forEach(question => {
+                message += `❓ *السؤال ${question.id}:* ${question.text}\n`;
+                message += `💬 *الإجابة:* ${answers[question.id]}\n\n`;
+            });
+            
+            message += `⏰ *تاريخ الإرسال:* ${new Date().toLocaleString('ar-SA')}\n`;
+            message += "🔥 *تم إنشاؤه بواسطة TEST TEAM*";
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappNumber = "212614130355";
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // تحميل الأسئلة عند بدء الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuestions();
+            updateProgress();
+        });
+
+        // تأثيرات إضافية للتفاعل
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.question-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+                } else {
+                    card.style.transform = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
