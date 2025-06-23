@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST TEAM - تم الإرسال بنجاح</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            min-height: 100vh;
+            direction: rtl;
+            line-height: 1.6;
+        }
+
+        /* خلفية متحركة */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+            z-index: -1;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border-radius: 50%;
+            animation: float 8s infinite linear;
+            opacity: 0.6;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Success Card */
+        .success-card {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 30px;
+            padding: 60px 50px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(76, 175, 80, 0.1);
+        }
+
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(76, 175, 80, 0.1), transparent);
+            opacity: 0.5;
+        }
+
+        /* Success Animation */
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            font-size: 4rem;
+            position: relative;
+            z-index: 1;
+            animation: successPulse 2s ease-in-out infinite;
+            box-shadow: 0 15px 40px rgba(76, 175, 80, 0.3);
+        }
+
+        @keyframes successPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 15px 40px rgba(76, 175, 80, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 20px 50px rgba(76, 175, 80, 0.4);
+            }
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-message {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Status Info */
+        .status-container {
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 20px;
+            padding: 35px;
+            margin: 35px 0;
+            text-align: right;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(76, 175, 80, 0.1);
+        }
+
+        .status-row:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: #888;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .status-value {
+            color: #4CAF50;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .status-icon {
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Reference Box */
+        .reference-container {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .reference-label {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .reference-value {
+            font-family: 'Courier New', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4CAF50;
+            letter-spacing: 2px;
+            text-align: center;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        /* Discord Info */
+        .discord-info {
+            background: rgba(114, 137, 218, 0.1);
+            border: 1px solid rgba(114, 137, 218, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .discord-title {
+            color: #7289da;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .discord-description {
+            color: #a0a0a0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 15px 40px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondary:hover {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(76, 175, 80, 0.3);
+        }
+
+        /* Team Badge */
+        .team-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .success-card {
+                padding: 40px 30px;
+                margin: 0 15px;
+            }
+
+            .success-title {
+                font-size: 2rem;
+            }
+
+            .success-message {
+                font-size: 1.1rem;
+            }
+
+            .status-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .reference-value {
+                font-size: 1.4rem;
+                letter-spacing: 1px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="success-card">
+            <div class="team-badge">15x3 EDITION</div>
+            
+            <div class="success-icon">✓</div>
+            
+            <h1 class="success-title">تم الإرسال بنجاح!</h1>
+            
+            <p class="success-message">
+                تم إرسال طلب الانضمام إلى Discord بنجاح. سيتم مراجعة طلبك من قبل فريق الإدارة قريباً.
+            </p>
+
+            <div class="status-container">
+                <div class="status-row">
+                    <span class="status-label">
+                        <span class="status-icon">📋</span>
+                        حالة الطلب:
+                    </span>
+                    <span class="status-value">تم الإرسال لـ Discord</span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label">
+                        <span class="status-icon">📅</span>
+                        تاريخ الإرسال:
+                    </span>
+                    <span class="status-value" id="submissionDate"></span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label">
+                        <span class="status-icon">🚀</span>
+                        الفريق:
+                    </span>
+                    <span class="status-value">TEST TEAM - 15x3</span>
+                </div>
+            </div>
+
+            <div class="reference-container">
+                <div class="reference-label">رقم المرجع للطلب:</div>
+                <div class="reference-value" id="referenceNumber">15X3-XXXXXXXX</div>
+                <button class="copy-btn" onclick="copyReference()">نسخ الرقم</button>
+            </div>
+
+            <div class="discord-info">
+                <div class="discord-title">
+                    <span>🤖</span>
+                    معلومات Discord
+                </div>
+                <div class="discord-description">
+                    تم إرسال طلبك إلى خادم Discord الخاص بالفريق. ستحصل على رد من الإدارة خلال 24-48 ساعة.
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="goHome()">
+                    العودة للصفحة الرئيسية
+                </button>
+                <button class="btn btn-secondary" onclick="submitAnother()">
+                    إرسال طلب آخر
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // إنشاء الجسيمات المتحركة
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 6 + 8) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // الحصول على رقم المرجع من URL
+        function getReferenceFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const reference = urlParams.get('ref');
+            return reference || `15X3-${Date.now().toString().slice(-8)}`;
+        }
+
+        // تحديث التاريخ ورقم المرجع
+        function updatePageInfo() {
+            const now = new Date();
+            const dateString = now.toLocaleDateString('ar-SA', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            document.getElementById('submissionDate').textContent = dateString;
+            document.getElementById('referenceNumber').textContent = getReferenceFromURL();
+        }
+
+        // نسخ رقم المرجع
+        function copyReference() {
+            const referenceNumber = document.getElementById('referenceNumber').textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(referenceNumber).then(() => {
+                    showCopySuccess();
+                });
+            } else {
+                // Fallback للمتصفحات الأقدم
+                const textArea = document.createElement('textarea');
+                textArea.value = referenceNumber;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCopySuccess();
+            }
+        }
+
+        // إظهار رسالة نجاح النسخ
+        function showCopySuccess() {
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalText = copyBtn.textContent;
+            
+            copyBtn.textContent = 'تم النسخ ✓';
+            copyBtn.style.background = 'rgba(76, 175, 80, 0.4)';
+            
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.background = 'rgba(76, 175, 80, 0.2)';
+            }, 2000);
+        }
+
+        // العودة للصفحة الرئيسية
+        function goHome() {
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+
+        // إرسال طلب آخر
+        function submitAnother() {
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = 'survey.html';
+            }, 500);
+        }
+
+        // تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            updatePageInfo();
+        });
+    </script>
+</body>
+</html>
