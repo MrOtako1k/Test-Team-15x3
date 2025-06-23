@@ -356,18 +356,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Error Message */
-        .error-message {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            color: #f44336;
-            text-align: center;
-            display: none;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .questions-grid {
@@ -420,10 +408,6 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
         
-        <div class="error-message" id="errorMessage">
-            حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى.
-        </div>
-        
         <div class="questions-grid" id="questionsContainer">
             <!-- الأسئلة ستتم إضافتها هنا -->
         </div>
@@ -472,14 +456,7 @@
         </div>
     </div>
 
-    <script type="module">
-        import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js@2'
-
-        // إعداد Supabase
-        const supabaseUrl = 'YOUR_SUPABASE_URL'
-        const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'
-        const supabase = createClient(supabaseUrl, supabaseKey)
-
+    <script>
         const questions = [
             {
                 id: 1,
@@ -602,7 +579,7 @@
             });
         }
 
-        window.selectAnswer = function(questionId, answer, button) {
+        function selectAnswer(questionId, answer, button) {
             const questionCard = button.closest('.question-card');
             const allButtons = questionCard.querySelectorAll('.answer-btn');
             allButtons.forEach(btn => btn.classList.remove('selected'));
@@ -612,7 +589,7 @@
             updateProgress();
         }
 
-        window.setTextAnswer = function(questionId, answer) {
+        function setTextAnswer(questionId, answer) {
             if (answer.trim()) {
                 answers[questionId] = answer.trim();
             } else {
@@ -621,12 +598,8 @@
             updateProgress();
         }
 
-        window.submitSurvey = async function() {
+        function submitSurvey() {
             const submitBtn = document.getElementById('submitBtn');
-            const errorMessage = document.getElementById('errorMessage');
-            
-            // إخفاء رسالة الخطأ
-            errorMessage.style.display = 'none';
             
             // التحقق من الإجابات
             let unanswered = [];
@@ -645,67 +618,71 @@
             submitBtn.innerHTML = 'جاري الإرسال...<span class="loading"></span>';
             submitBtn.disabled = true;
 
-            try {
-                // إنشاء رقم مرجع فريد
-                const reference = `15X3-${Date.now().toString().slice(-8)}`;
+            // إنشاء بيانات الطلب
+            const submissionData = {
+                id: Date.now(),
+                name: answers[1] || 'غير محدد',
+                age: answers[2] || 'غير محدد',
+                previousTeam: answers[3] || 'غير محدد',
+                device: answers[4] || 'غير محدد',
+                skills: answers[5] || 'غير محدد',
+                teamRole: answers[6] || 'غير محدد',
+                gamesDeveloped: answers[7] || 'غير محدد',
+                studyField: answers[8] || 'غير محدد',
+                commitment: answers[9] || 'غير محدد',
+                message: answers[10] || 'غير محدد',
+                keepTag: answers[11] || 'غير محدد',
+                phoneNumber: answers[12] || 'غير محدد',
+                status: 'pending',
+                date: new Date().toISOString().split('T')[0],
+                reference: `15X3-${Date.now().toString().slice(-8)}`,
+                answers: answers
+            };
+
+            // حفظ الطلب في localStorage
+            saveSubmissionToAdmin(submissionData);
+
+            setTimeout(() => {
+                // إخفاء الاستبيان وإظهار شاشة النجاح
+                document.getElementById('surveyContainer').style.display = 'none';
                 
-                // إنشاء بيانات الطلب
-                const submissionData = {
-                    name: answers[1] || 'غير محدد',
-                    age: answers[2] || 'غير محدد',
-                    previous_team: answers[3] || 'غير محدد',
-                    device: answers[4] || 'غير محدد',
-                    skills: answers[5] || 'غير محدد',
-                    team_role: answers[6] || 'غير محدد',
-                    games_developed: answers[7] || 'غير محدد',
-                    study_field: answers[8] || 'غير محدد',
-                    commitment: answers[9] || 'غير محدد',
-                    message: answers[10] || 'غير محدد',
-                    keep_tag: answers[11] || 'غير محدد',
-                    phone_number: answers[12] || 'غير محدد',
-                    status: 'pending',
-                    reference: reference,
-                    answers: answers
-                };
-
-                // إرسال البيانات إلى Supabase
-                const { data, error } = await supabase
-                    .from('submissions')
-                    .insert([submissionData])
-                    .select();
-
-                if (error) {
-                    throw error;
-                }
-
-                // نجح الإرسال
-                setTimeout(() => {
-                    // إخفاء الاستبيان وإظهار شاشة النجاح
-                    document.getElementById('surveyContainer').style.display = 'none';
-                    
-                    // تحديث التاريخ ورقم المرجع
-                    const now = new Date();
-                    document.getElementById('submissionDate').textContent = now.toLocaleDateString('ar-SA');
-                    document.getElementById('referenceNumber').textContent = reference;
-                    
-                    // إظهار شاشة النجاح
-                    document.getElementById('successScreen').style.display = 'block';
-                }, 1000);
-
-            } catch (error) {
-                console.error('خطأ في إرسال الطلب:', error);
+                // تحديث التاريخ ورقم المرجع
+                const now = new Date();
+                document.getElementById('submissionDate').textContent = now.toLocaleDateString('ar-SA');
+                document.getElementById('referenceNumber').textContent = submissionData.reference;
                 
-                // إظهار رسالة الخطأ
-                errorMessage.style.display = 'block';
-                errorMessage.textContent = 'حدث خطأ في الإرسال. يرجى التحقق من الاتصال بالإنترنت والمحاولة مرة أخرى.';
+                // إظهار شاشة النجاح
+                document.getElementById('successScreen').style.display = 'block';
                 
-                // إعادة تعيين الزر
-                submitBtn.innerHTML = 'إرسال الطلب';
-                submitBtn.disabled = false;
-            }
+            }, 2000);
         }
 
-        window.goHome = function() {
+        function saveSubmissionToAdmin(submissionData) {
+            // الحصول على الطلبات الموجودة
+            let submissions = JSON.parse(localStorage.getItem('adminSubmissions') || '[]');
+            
+            // إضافة الطلب الجديد
+            submissions.unshift(submissionData);
+            
+            // حفظ الطلبات المحدثة
+            localStorage.setItem('adminSubmissions', JSON.stringify(submissions));
+            
+            // تحديث الإحصائيات
+            updateAdminStats(submissions);
+        }
+
+        function updateAdminStats(submissions) {
+            const stats = {
+                total: submissions.length,
+                pending: submissions.filter(s => s.status === 'pending').length,
+                approved: submissions.filter(s => s.status === 'approved').length,
+                rejected: submissions.filter(s => s.status === 'rejected').length
+            };
+            
+            localStorage.setItem('adminStats', JSON.stringify(stats));
+        }
+
+        function goHome() {
             window.location.href = 'index.html';
         }
 
