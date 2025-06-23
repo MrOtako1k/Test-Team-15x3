@@ -20,6 +20,7 @@
             line-height: 1.6;
         }
 
+        /* خلفية متحركة */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -77,6 +78,7 @@
             align-items: center;
         }
 
+        /* Header */
         .header {
             text-align: center;
             margin-bottom: 60px;
@@ -112,6 +114,7 @@
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
 
+        /* Options Container */
         .options-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -228,6 +231,7 @@
             box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
         }
 
+        /* Modal للأدمن */
         .modal {
             display: none;
             position: fixed;
@@ -343,6 +347,7 @@
             display: none;
         }
 
+        /* Footer */
         .footer {
             position: absolute;
             bottom: 30px;
@@ -353,6 +358,7 @@
             font-size: 0.9rem;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
             .logo {
                 font-size: 3rem;
@@ -390,6 +396,7 @@
         </div>
         
         <div class="options-container">
+            <!-- بطاقة دخول الأدمن -->
             <div class="option-card admin-card">
                 <div class="option-icon">👑</div>
                 <h3 class="option-title">دخول الأدمن</h3>
@@ -401,6 +408,7 @@
                 </button>
             </div>
 
+            <!-- بطاقة الاستبيان -->
             <div class="option-card">
                 <div class="option-icon">📋</div>
                 <h3 class="option-title">الاستبيان التفاعلي</h3>
@@ -414,6 +422,7 @@
         </div>
     </div>
 
+    <!-- مودال تسجيل دخول الأدمن -->
     <div class="modal" id="adminModal">
         <div class="modal-content">
             <h2 class="modal-title">دخول الأدمن</h2>
@@ -444,6 +453,7 @@
     </div>
 
     <script>
+        // إنشاء الجسيمات المتحركة
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = 50;
@@ -458,11 +468,13 @@
             }
         }
 
+        // فتح مودال الأدمن
         function openAdminModal() {
             document.getElementById('adminModal').style.display = 'block';
             document.getElementById('username').focus();
         }
 
+        // إغلاق مودال الأدمن
         function closeAdminModal() {
             document.getElementById('adminModal').style.display = 'none';
             document.getElementById('username').value = '';
@@ -470,11 +482,13 @@
             document.getElementById('errorMessage').style.display = 'none';
         }
 
+        // تسجيل دخول الأدمن
         function adminLogin() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('errorMessage');
 
+            // بيانات الدخول (يمكن تغييرها)
             const validCredentials = {
                 'romboM9': '15x3',
                 'yassineM9': '15x3',
@@ -482,17 +496,22 @@
             };
 
             if (validCredentials[username] && validCredentials[username] === password) {
+                // حفظ اسم المستخدم
                 localStorage.setItem('adminName', username);
                 
+                // نجح تسجيل الدخول
+                // إخفاء الصفحة الحالية بتأثير انتقالي
                 document.body.style.transition = 'opacity 0.5s ease';
                 document.body.style.opacity = '0';
                 
+                // الانتقال للوحة تحكم الأدمن - تم إصلاح الرابط
                 setTimeout(() => {
                     window.location.href = 'admin_panel.html';
                 }, 500);
                 
                 closeAdminModal();
             } else {
+                // فشل تسجيل الدخول
                 errorMessage.style.display = 'block';
                 setTimeout(() => {
                     errorMessage.style.display = 'none';
@@ -500,15 +519,19 @@
             }
         }
 
+        // الذهاب للاستبيان
         function goToSurvey() {
+            // إخفاء الصفحة الحالية بتأثير انتقالي
             document.body.style.transition = 'opacity 0.5s ease';
             document.body.style.opacity = '0';
             
+            // الانتقال لصفحة الاستبيان بعد التأثير
             setTimeout(() => {
                 window.location.href = 'test1.html';
             }, 500);
         }
 
+        // إغلاق المودال عند الضغط خارجها
         window.onclick = function(event) {
             const modal = document.getElementById('adminModal');
             if (event.target === modal) {
@@ -516,6 +539,7 @@
             }
         }
 
+        // إضافة دعم لمفاتيح لوحة المفاتيح
         document.addEventListener('keydown', function(event) {
             const modal = document.getElementById('adminModal');
             if (modal.style.display === 'block') {
@@ -527,6 +551,7 @@
             }
         });
 
+        // تحميل الصفحة
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
         });
