@@ -191,8 +191,8 @@
             margin-right: auto;
         }
 
-        .admin-badge {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        .new-badge {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
             color: white;
             padding: 2px 8px;
             border-radius: 10px;
@@ -201,8 +201,8 @@
             margin-right: auto;
         }
 
-        .visitor-badge {
-            background: linear-gradient(135deg, #00d2d3, #54a0ff);
+        .hot-badge {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
             padding: 2px 8px;
             border-radius: 10px;
@@ -598,35 +598,32 @@
                 <span class="dropdown-text">بدء الاستبيان</span>
                 <span class="dropdown-badge">جديد</span>
             </div>
-            <div class="dropdown-item" onclick="showApplicationStats()">
-                <span class="dropdown-icon">📊</span>
-                <span class="dropdown-text">إحصائيات الطلبات</span>
-                <span class="admin-badge">أدمن</span>
+            <div class="dropdown-item" onclick="showRequirements()">
+                <span class="dropdown-icon">📝</span>
+                <span class="dropdown-text">متطلبات الانضمام</span>
+                <span class="new-badge">مهم</span>
             </div>
-            <div class="dropdown-item" onclick="showMembersList()">
-                <span class="dropdown-icon">👥</span>
-                <span class="dropdown-text">قائمة الأعضاء</span>
-                <span class="admin-badge">أدمن</span>
+            <div class="dropdown-item" onclick="showSkills()">
+                <span class="dropdown-icon">💡</span>
+                <span class="dropdown-text">المهارات المطلوبة</span>
             </div>
-            <div class="dropdown-item" onclick="showSystemStatus()">
-                <span class="dropdown-icon">⚙️</span>
-                <span class="dropdown-text">حالة النظام</span>
-                <span class="admin-badge">أدمن</span>
+            <div class="dropdown-item" onclick="showTutorials()">
+                <span class="dropdown-icon">🎓</span>
+                <span class="dropdown-text">دروس تعليمية</span>
+                <span class="hot-badge">شائع</span>
             </div>
             <div class="dropdown-item" onclick="showFAQ()">
                 <span class="dropdown-icon">❓</span>
                 <span class="dropdown-text">الأسئلة الشائعة</span>
-                <span class="visitor-badge">زائر</span>
             </div>
-            <div class="dropdown-item" onclick="showProjectsGallery()">
-                <span class="dropdown-icon">🎨</span>
-                <span class="dropdown-text">معرض المشاريع</span>
-                <span class="visitor-badge">زائر</span>
+            <div class="dropdown-item" onclick="showProjects()">
+                <span class="dropdown-icon">🚀</span>
+                <span class="dropdown-text">مشاريعنا</span>
             </div>
             <a href="https://discord.gg/AKVJfGDCkX" target="_blank" class="dropdown-item">
                 <span class="dropdown-icon">🎮</span>
                 <span class="dropdown-text">Discord</span>
-                <span class="visitor-badge">انضم</span>
+                <span class="new-badge">انضم</span>
             </a>
         </div>
     </div>
@@ -669,8 +666,8 @@
             <a href="status.html" class="quick-btn">
                 📊 تتبع حالة الطلب
             </a>
-            <div class="quick-btn" onclick="showProjectsGallery()">
-                🎨 معرض المشاريع
+            <div class="quick-btn" onclick="showProjects()">
+                🚀 مشاريعنا
             </div>
         </div>
 
@@ -769,153 +766,224 @@
             }, 500);
         }
 
-        // إحصائيات الطلبات (للأدمن)
-        function showApplicationStats() {
+        // متطلبات الانضمام
+        function showRequirements() {
             const content = `
-                <div style="text-align: center;">
-                    <h3 style="color: #667eea; margin-bottom: 20px;">📊 إحصائيات الطلبات</h3>
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">📝 متطلبات الانضمام للفريق</h3>
                     
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
-                        <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #667eea;">127</div>
-                            <div style="font-size: 0.9rem; color: #888;">إجمالي الطلبات</div>
-                        </div>
-                        <div style="background: rgba(46, 204, 113, 0.1); padding: 15px; border-radius: 10px;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #2ecc71;">89</div>
-                            <div style="font-size: 0.9rem; color: #888;">مقبول</div>
-                        </div>
-                        <div style="background: rgba(231, 76, 60, 0.1); padding: 15px; border-radius: 10px;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #e74c3c;">23</div>
-                            <div style="font-size: 0.9rem; color: #888;">مرفوض</div>
-                        </div>
-                        <div style="background: rgba(241, 196, 15, 0.1); padding: 15px; border-radius: 10px;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #f1c40f;">15</div>
-                            <div style="font-size: 0.9rem; color: #888;">قيد المراجعة</div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: right; margin-top: 20px;">
-                        <h4 style="color: #667eea; margin-bottom: 10px;">📈 إحصائيات هذا الأسبوع:</h4>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 8px;">• طلبات جديدة: <strong style="color: #2ecc71;">12</strong></li>
-                            <li style="margin-bottom: 8px;">• تم قبولها: <strong style="color: #2ecc71;">8</strong></li>
-                            <li style="margin-bottom: 8px;">• تم رفضها: <strong style="color: #e74c3c;">3</strong></li>
-                            <li style="margin-bottom: 8px;">• معدل القبول: <strong style="color: #667eea;">70%</strong></li>
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: #2ecc71; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            ✅ المتطلبات الأساسية
+                        </h4>
+                        <ul style="list-style: none; padding: 0; margin-right: 20px;">
+                            <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #667eea;">•</span> العمر: 16 سنة فما فوق
+                            </li>
+                            <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #667eea;">•</span> الالتزام: 10 ساعات أسبوعياً على الأقل
+                            </li>
+                            <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #667eea;">•</span> التواصل: استخدام Discord بشكل يومي
+                            </li>
+                            <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #667eea;">•</span> اللغة: إتقان العربية والإنجليزية الأساسية
+                            </li>
                         </ul>
                     </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: #f39c12; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            🎯 المهارات المفضلة
+                        </h4>
+                        <ul style="list-style: none; padding: 0; margin-right: 20px;">
+                            <li style="margin-bottom: 8px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #667eea;">•</span> البرمجة (أي لغة)
+                            </li>
+                            <li style="margin-bottom: 8px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #667eea;">•</span> التصميم (UI/UX)
+                            </li>
+                            <li style="margin-bottom: 8px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #667eea;">•</span> إدارة المشاريع
+                            </li>
+                            <li style="margin-bottom: 8px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #667eea;">•</span> اختبار الجودة
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 15px; margin-top: 20px;">
+                        <h4 style="color: #667eea; margin-bottom: 10px;">💡 نصائح للقبول:</h4>
+                        <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px;">
+                            • كن صادقاً في إجاباتك<br>
+                            • أظهر شغفك للتعلم<br>
+                            • اذكر مشاريعك السابقة إن وجدت<br>
+                            • كن مستعداً للعمل الجماعي
+                        </p>
+                    </div>
                 </div>
             `;
-            showModal('إحصائيات الطلبات', content);
+            showModal('متطلبات الانضمام', content);
         }
 
-        // قائمة الأعضاء (للأدمن)
-        function showMembersList() {
+        // المهارات المطلوبة
+        function showSkills() {
             const content = `
                 <div>
-                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">👥 قائمة الأعضاء النشطين</h3>
+                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">💡 المهارات المطلوبة</h3>
                     
-                    <div style="max-height: 300px; overflow-y: auto;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
-                            <div>
-                                <div style="font-weight: bold;">أحمد محمد</div>
-                                <div style="font-size: 0.8rem; color: #888;">مطور واجهات</div>
+                    <div style="display: grid; gap: 20px;">
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 15px;">
+                            <h4 style="color: #667eea; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                💻 البرمجة والتطوير
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 0.9rem;">
+                                <div>• JavaScript/TypeScript</div>
+                                <div>• Python</div>
+                                <div>• React/Vue/Angular</div>
+                                <div>• Node.js</div>
+                                <div>• HTML/CSS</div>
+                                <div>• Git/GitHub</div>
                             </div>
-                            <div style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">نشط</div>
                         </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
-                            <div>
-                                <div style="font-weight: bold;">سارة أحمد</div>
-                                <div style="font-size: 0.8rem; color: #888;">مصممة UI/UX</div>
+
+                        <div style="background: rgba(46, 204, 113, 0.1); padding: 20px; border-radius: 15px;">
+                            <h4 style="color: #2ecc71; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                🎨 التصميم والإبداع
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 0.9rem;">
+                                <div>• UI/UX Design</div>
+                                <div>• Figma/Adobe XD</div>
+                                <div>• Photoshop/Illustrator</div>
+                                <div>• Graphic Design</div>
+                                <div>• Animation</div>
+                                <div>• Branding</div>
                             </div>
-                            <div style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">نشط</div>
                         </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
-                            <div>
-                                <div style="font-weight: bold;">محمد علي</div>
-                                <div style="font-size: 0.8rem; color: #888;">مطور خلفي</div>
+
+                        <div style="background: rgba(241, 196, 15, 0.1); padding: 20px; border-radius: 15px;">
+                            <h4 style="color: #f1c40f; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                📊 الإدارة والتنظيم
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 0.9rem;">
+                                <div>• إدارة المشاريع</div>
+                                <div>• التخطيط الاستراتيجي</div>
+                                <div>• إدارة الفرق</div>
+                                <div>• التواصل الفعال</div>
+                                <div>• حل المشاكل</div>
+                                <div>• إدارة الوقت</div>
                             </div>
-                            <div style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">مشغول</div>
                         </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
-                            <div>
-                                <div style="font-weight: bold;">فاطمة حسن</div>
-                                <div style="font-size: 0.8rem; color: #888;">مختبرة جودة</div>
+
+                        <div style="background: rgba(231, 76, 60, 0.1); padding: 20px; border-radius: 15px;">
+                            <h4 style="color: #e74c3c; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                🔍 الجودة والاختبار
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 0.9rem;">
+                                <div>• اختبار التطبيقات</div>
+                                <div>• كتابة التقارير</div>
+                                <div>• تتبع الأخطاء</div>
+                                <div>• ضمان الجودة</div>
+                                <div>• اختبار الأداء</div>
+                                <div>• اختبار الأمان</div>
                             </div>
-                            <div style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">نشط</div>
-                        </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
-                            <div>
-                                <div style="font-weight: bold;">عبدالله خالد</div>
-                                <div style="font-size: 0.8rem; color: #888;">مدير مشروع</div>
-                            </div>
-                            <div style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">غير متصل</div>
                         </div>
                     </div>
-                    
-                    <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(102, 126, 234, 0.2);">
-                        <strong style="color: #667eea;">إجمالي الأعضاء: 89 | النشطين: 67</strong>
+
+                    <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                        <p style="font-size: 0.9rem; color: #b0b0b0;">
+                            <strong style="color: #667eea;">ملاحظة:</strong> لا تحتاج لإتقان كل هذه المهارات! نحن نبحث عن الشغف والرغبة في التعلم 🚀
+                        </p>
                     </div>
                 </div>
             `;
-            showModal('قائمة الأعضاء', content);
+            showModal('المهارات المطلوبة', content);
         }
 
-        // حالة النظام (للأدمن)
-        function showSystemStatus() {
+        // الدروس التعليمية
+        function showTutorials() {
             const content = `
                 <div>
-                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">⚙️ حالة النظام</h3>
+                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">🎓 دروس تعليمية مجانية</h3>
                     
-                    <div style="margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <span>🌐 حالة الخادم</span>
-                            <span style="background: #2ecc71; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">متصل</span>
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                💻 البرمجة للمبتدئين
+                            </h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 10px; line-height: 1.5;">
+                                تعلم أساسيات البرمجة مع JavaScript وHTML/CSS
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: #667eea; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">مجاني</span>
+                                <span style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">للمبتدئين</span>
+                            </div>
                         </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <span>💾 قاعدة البيانات</span>
-                            <span style="background: #2ecc71; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">تعمل بشكل طبيعي</span>
+
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(46, 204, 113, 0.1); border-radius: 10px;">
+                            <h4 style="color: #2ecc71; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                🎨 أساسيات التصميم
+                            </h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 10px; line-height: 1.5;">
+                                تعلم مبادئ UI/UX وكيفية استخدام Figma
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">مجاني</span>
+                                <span style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">متوسط</span>
+                            </div>
                         </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <span>🎮 Discord Bot</span>
-                            <span style="background: #2ecc71; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">متصل</span>
+
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(241, 196, 15, 0.1); border-radius: 10px;">
+                            <h4 style="color: #f1c40f; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                📊 إدارة المشاريع
+                            </h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 10px; line-height: 1.5;">
+                                تعلم كيفية تنظيم وإدارة المشاريع التقنية
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: #f1c40f; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">مجاني</span>
+                                <span style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">للمبتدئين</span>
+                            </div>
                         </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <span>📧 نظام الإشعارات</span>
-                            <span style="background: #f39c12; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">تأخير طفيف</span>
+
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(155, 89, 182, 0.1); border-radius: 10px;">
+                            <h4 style="color: #9b59b6; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                🚀 React للمطورين
+                            </h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 10px; line-height: 1.5;">
+                                دورة شاملة لتعلم React وبناء تطبيقات حديثة
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: #9b59b6; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">مجاني</span>
+                                <span style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">متقدم</span>
+                            </div>
                         </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <span>🔒 نظام الأمان</span>
-                            <span style="background: #2ecc71; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">محمي</span>
+
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(52, 152, 219, 0.1); border-radius: 10px;">
+                            <h4 style="color: #3498db; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                🔍 اختبار الجودة
+                            </h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 10px; line-height: 1.5;">
+                                تعلم كيفية اختبار التطبيقات وضمان الجودة
+                            </p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span style="background: #3498db; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">مجاني</span>
+                                <span style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;">متوسط</span>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px;">
-                        <h4 style="color: #667eea; margin-bottom: 10px;">📊 إحصائيات الأداء:</h4>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 0.9rem;">
-                            <div>وقت التشغيل: <strong>99.8%</strong></div>
-                            <div>استخدام المعالج: <strong>23%</strong></div>
-                            <div>استخدام الذاكرة: <strong>67%</strong></div>
-                            <div>مساحة القرص: <strong>45%</strong></div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 15px;">
-                        <small style="color: #888;">آخر تحديث: منذ 2 دقيقة</small>
+
+                    <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                        <p style="font-size: 0.9rem; color: #b0b0b0;">
+                            <strong style="color: #667eea;">💡 نصيحة:</strong> ابدأ بالدروس المناسبة لمستواك وتدرج في التعلم. نحن هنا لمساعدتك! 🚀
+                        </p>
                     </div>
                 </div>
             `;
-            showModal('حالة النظام', content);
+            showModal('دروس تعليمية', content);
         }
 
-        // الأسئلة الشائعة (للزوار)
+        // الأسئلة الشائعة
         function showFAQ() {
             const content = `
                 <div>
@@ -933,8 +1001,8 @@
                         </div>
                         
                         <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
-                            <h4 style="color: #667eea; margin-bottom: 8px;">ما هي المهارات المطلوبة؟</h4>
-                            <p style="font-size: 0.9rem; line-height: 1.5;">نبحث عن مطورين، مصممين، مختبري جودة، ومديري مشاريع. المهم هو الشغف والرغبة في التعلم.</p>
+                            <h4 style="color: #667eea; margin-bottom: 8px;">هل أحتاج خبرة سابقة؟</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.5;">لا، نرحب بالمبتدئين! المهم هو الشغف والرغبة في التعلم والتطوير.</p>
                         </div>
                         
                         <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
@@ -943,8 +1011,8 @@
                         </div>
                         
                         <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
-                            <h4 style="color: #667eea; margin-bottom: 8px;">كيف يمكنني التواصل مع الفريق؟</h4>
-                            <p style="font-size: 0.9rem; line-height: 1.5;">الطريقة الأساسية هي Discord. انضم إلى الخادم واكتب --- لتفعيل حسابك والوصول لجميع القنوات.</p>
+                            <h4 style="color: #667eea; margin-bottom: 8px;">كم ساعة عمل مطلوبة أسبوعياً؟</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.5;">نتوقع التزاماً بحد أدنى 10 ساعات أسبوعياً، لكن يمكن تنسيق الوقت حسب ظروفك.</p>
                         </div>
                         
                         <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
@@ -957,52 +1025,52 @@
             showModal('الأسئلة الشائعة', content);
         }
 
-        // معرض المشاريع (للزوار)
-        function showProjectsGallery() {
+        // مشاريعنا
+        function showProjects() {
             const content = `
                 <div>
-                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">🎨 معرض المشاريع</h3>
+                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">🚀 مشاريعنا</h3>
                     
                     <div style="max-height: 400px; overflow-y: auto;">
-                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(46, 204, 113, 0.1); border-radius: 10px; border-right: 4px solid #2ecc71;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <h4 style="color: #667eea;">🚀 منصة إدارة المشاريع</h4>
+                                <h4 style="color: #2ecc71;">🌐 منصة إدارة المشاريع</h4>
                                 <span style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">مكتمل</span>
                             </div>
                             <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">منصة شاملة لإدارة المشاريع والفرق مع واجهة حديثة وأدوات متقدمة.</p>
                             <div style="font-size: 0.8rem; color: #888;">التقنيات: React, Node.js, MongoDB</div>
                         </div>
                         
-                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(241, 196, 15, 0.1); border-radius: 10px; border-right: 4px solid #f1c40f;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <h4 style="color: #667eea;">🎮 لعبة الألغاز التفاعلية</h4>
+                                <h4 style="color: #f1c40f;">🎮 لعبة الألغاز التفاعلية</h4>
                                 <span style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">قيد التطوير</span>
                             </div>
                             <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">لعبة ألغاز ثلاثية الأبعاد مع مستويات متدرجة الصعوبة وقصة مشوقة.</p>
                             <div style="font-size: 0.8rem; color: #888;">التقنيات: Unity, C#, Blender</div>
                         </div>
                         
-                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(46, 204, 113, 0.1); border-radius: 10px; border-right: 4px solid #2ecc71;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <h4 style="color: #667eea;">📱 تطبيق التعلم الذكي</h4>
+                                <h4 style="color: #2ecc71;">📱 تطبيق التعلم الذكي</h4>
                                 <span style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">مكتمل</span>
                             </div>
                             <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">تطبيق تعليمي يستخدم الذكاء الاصطناعي لتخصيص تجربة التعلم.</p>
                             <div style="font-size: 0.8rem; color: #888;">التقنيات: Flutter, Python, TensorFlow</div>
                         </div>
                         
-                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px; border-right: 4px solid #667eea;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <h4 style="color: #667eea;">🌐 موقع التجارة الإلكترونية</h4>
+                                <h4 style="color: #667eea;">🛒 متجر إلكتروني</h4>
                                 <span style="background: #667eea; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">التخطيط</span>
                             </div>
                             <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">منصة تجارة إلكترونية متكاملة مع نظام دفع آمن وإدارة المخزون.</p>
                             <div style="font-size: 0.8rem; color: #888;">التقنيات: Next.js, PostgreSQL, Stripe</div>
                         </div>
                         
-                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(46, 204, 113, 0.1); border-radius: 10px; border-right: 4px solid #2ecc71;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <h4 style="color: #667eea;">🤖 بوت Discord متقدم</h4>
+                                <h4 style="color: #2ecc71;">🤖 بوت Discord متقدم</h4>
                                 <span style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">مكتمل</span>
                             </div>
                             <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">بوت Discord متعدد الوظائف مع أوامر تفاعلية ونظام إدارة متقدم.</p>
@@ -1015,7 +1083,7 @@
                     </div>
                 </div>
             `;
-            showModal('معرض المشاريع', content);
+            showModal('مشاريعنا', content);
         }
 
         // تحميل الصفحة
