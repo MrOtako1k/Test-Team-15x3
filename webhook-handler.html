@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST TEAM - معالج الأزرار</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            min-height: 100vh;
+            direction: rtl;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(26, 26, 26, 0.8);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+
+        .title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+
+        .status {
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        .status.success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #10b981;
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">معالج أزرار Discord</h1>
+        <p class="message">جاري معالجة الطلب...</p>
+        <div id="status" class="status" style="display: none;"></div>
+        <a href="index.html" class="btn">العودة للصفحة الرئيسية</a>
+    </div>
+
+    <script>
+        // معالجة أزرار Discord
+        function handleDiscordButton() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const action = urlParams.get('action'); // approve, reject, details
+            const reference = urlParams.get('ref');
+            const statusDiv = document.getElementById('status');
+            const messageDiv = document.querySelector('.message');
+
+            if (!action || !reference) {
+                showStatus('error', 'معاملات غير صحيحة');
+                return;
+            }
+
+            // البحث عن الطلب في التخزين المحلي
+            const applicationData = localStorage.getItem(`application_${reference}`);
+            
+            if (!applicationData) {
+                showStatus('error', 'لم يتم العثور على الطلب');
+                return;
+            }
+
+            const data = JSON.parse(applicationData);
+
+            switch (action) {
+                case 'approve':
+                    data.status = 'approved';
+                    data.approvedDate = new Date().toISOString();
+                    localStorage.setItem(`application_${reference}`, JSON.stringify(data));
+                    messageDiv.textContent = 'تم قبول الطلب بنجاح!';
+                    showStatus('success', `تم قبول طلب ${data.name || 'المتقدم'} للانضمام إلى الفريق`);
+                    break;
+                    
+                case 'reject':
+                    data.status = 'rejected';
+                    data.rejectedDate = new Date().toISOString();
+                    localStorage.setItem(`application_${reference}`, JSON.stringify(data));
+                    messageDiv.textContent = 'تم رفض الطلب';
+                    showStatus('error', `تم رفض طلب ${data.name || 'المتقدم'}`);
+                    break;
+                    
+                case 'details':
+                    messageDiv.textContent = 'عرض تفاصيل الطلب';
+                    showApplicationDetails(data);
+                    break;
+                    
+                default:
+                    showStatus('error', 'إجراء غير معروف');
+            }
+        }
+
+        // إظهار الحالة
+        function showStatus(type, message) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            statusDiv.style.display = 'block';
+        }
+
+        // عرض تفاصيل الطلب
+        function showApplicationDetails(data) {
+            const container = document.querySelector('.container');
+            
+            const detailsHTML = `
+                <div style="text-align: right; margin: 30px 0; padding: 20px; background: rgba(15, 15, 15, 0.8); border-radius: 15px;">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">تفاصيل الطلب:</h3>
+                    <p><strong>الاسم:</strong> ${data.name || 'غير محدد'}</p>
+                    <p><strong>العمر:</strong> ${data.age || 'غير محدد'}</p>
+                    <p><strong>الجهاز:</strong> ${data.device || 'غير محدد'}</p>
+                    <p><strong>المهارات:</strong> ${data.skills || 'غير محدد'}</p>
+                    <p><strong>دور الفريق:</strong> ${data.teamRole || 'غير محدد'}</p>
+                    <p><strong>المجال الدراسي:</strong> ${data.studyField || 'غير محدد'}</p>
+                    <p><strong>رقم الهاتف:</strong> ${data.phoneNumber || 'غير محدد'}</p>
+                    <p><strong>رقم المرجع:</strong> ${data.reference}</p>
+                    <p><strong>تاريخ الإرسال:</strong> ${new Date(data.submissionDate).toLocaleDateString('ar-SA')}</p>
+                    <p><strong>الحالة:</strong> ${getStatusText(data.status)}</p>
+                </div>
+            `;
+            
+            container.innerHTML += detailsHTML;
+        }
+
+        // الحصول على نص الحالة
+        function getStatusText(status) {
+            switch (status) {
+                case 'approved':
+                    return 'تم القبول ✅';
+                case 'rejected':
+                    return 'تم الرفض ❌';
+                default:
+                    return 'في الانتظار ⏳';
+            }
+        }
+
+        // تشغيل المعالج عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', handleDiscordButton);
+    </script>
+</body>
+</html>
