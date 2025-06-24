@@ -595,6 +595,11 @@
                         name: "🏷️ DAYMAN HAYDIR TAG 15x3",
                         value: data.keepTag || "غير محدد",
                         inline: true
+                        },
+                    {
+                        name: "🫧 NAME DISCORD DYALO",
+                        value: data.namedis || "غير محدد",
+                        inline: true
                     },
                     {
                         name: "🔗 رقم المرجع",
@@ -699,6 +704,7 @@
                     message: answers[10] || 'غير محدد',
                     keepTag: answers[11] || 'غير محدد',
                     phoneNumber: answers[12] || 'غير محدد',
+                    namedis: answers[13] || 'غير محدد',
                     submissionDate: new Date().toISOString(),
                     reference: reference,
                     status: 'pending' // حالة الطلب: في الانتظار
