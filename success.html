@@ -229,6 +229,116 @@
             border: 1px solid rgba(76, 175, 80, 0.2);
         }
 
+        /* Discord Instructions */
+        .discord-instructions {
+            background: rgba(114, 137, 218, 0.1);
+            border: 2px solid rgba(114, 137, 218, 0.4);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            z-index: 1;
+            animation: discordPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes discordPulse {
+            0%, 100% {
+                border-color: rgba(114, 137, 218, 0.4);
+                box-shadow: 0 0 20px rgba(114, 137, 218, 0.1);
+            }
+            50% {
+                border-color: rgba(114, 137, 218, 0.6);
+                box-shadow: 0 0 30px rgba(114, 137, 218, 0.2);
+            }
+        }
+
+        .discord-title {
+            color: #7289da;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .discord-icon {
+            font-size: 2rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .discord-message {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .discord-steps {
+            background: rgba(15, 15, 15, 0.6);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: right;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(114, 137, 218, 0.2);
+        }
+
+        .step-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .step-number {
+            background: #7289da;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-left: 15px;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            color: #b0b0b0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .highlight-text {
+            color: #7289da;
+            font-weight: 700;
+            background: rgba(114, 137, 218, 0.1);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
         /* Discord Info */
         .discord-info {
             background: rgba(114, 137, 218, 0.1);
@@ -240,7 +350,7 @@
             z-index: 1;
         }
 
-        .discord-title {
+        .discord-title-small {
             color: #7289da;
             font-size: 1.2rem;
             font-weight: 600;
@@ -377,6 +487,25 @@
                 width: 100%;
                 max-width: 250px;
             }
+
+            .discord-instructions {
+                padding: 20px;
+            }
+
+            .discord-message {
+                font-size: 1.1rem;
+            }
+
+            .step-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .step-number {
+                margin-left: 0;
+                margin-bottom: 5px;
+            }
         }
     </style>
 </head>
@@ -426,13 +555,51 @@
                 <button class="copy-btn" onclick="copyReference()">نسخ الرقم</button>
             </div>
 
-            <div class="discord-info">
+            <!-- تعليمات Discord الجديدة -->
+            <div class="discord-instructions">
                 <div class="discord-title">
+                    <span class="discord-icon">🎮</span>
+                    خطوة مهمة - ادخل Discord الآن!
+                </div>
+                
+                <div class="discord-message">
+                    يرجى الدخول إلى خادم Discord وإضافة الثلاث شرطات التالية:
+                </div>
+
+                <div class="discord-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-text">
+                            ادخل إلى خادم Discord الخاص بـ TEST TEAM
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-text">
+                            اكتب في أي قناة الثلاث شرطات: <span class="highlight-text">---</span>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-text">
+                            انتظر رد الإدارة على طلبك مع رقم المرجع: <span class="highlight-text" id="referenceForDiscord">15X3-XXXXXXXX</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(255, 193, 7, 0.1); border-radius: 10px; border: 1px solid rgba(255, 193, 7, 0.3);">
+                    <span style="color: #ffc107; font-weight: 700;">⚠️ مهم جداً:</span>
+                    <span style="color: #ffffff; margin-right: 10px;">لا تنس إضافة الثلاث شرطات في Discord لإكمال عملية التقديم!</span>
+                </div>
+            </div>
+
+            <div class="discord-info">
+                <div class="discord-title-small">
                     <span>🤖</span>
-                    معلومات Discord
+                    معلومات إضافية
                 </div>
                 <div class="discord-description">
-                    تم إرسال طلبك إلى خادم Discord مع أزرار القبول والرفض. يمكن للإدارة الآن اتخاذ قرار بشأن طلبك مباشرة من Discord.
+                    تم إرسال طلبك إلى خادم Discord مع أزرار القبول والرفض. يمكن للإدارة الآن اتخاذ قرار بشأن طلبك مباشرة من Discord بعد إضافة الثلاث شرطات.
                 </div>
             </div>
 
@@ -482,8 +649,10 @@
                 day: 'numeric'
             });
             
+            const reference = getReferenceFromURL();
             document.getElementById('submissionDate').textContent = dateString;
-            document.getElementById('referenceNumber').textContent = getReferenceFromURL();
+            document.getElementById('referenceNumber').textContent = reference;
+            document.getElementById('referenceForDiscord').textContent = reference;
         }
 
         // نسخ رقم المرجع
