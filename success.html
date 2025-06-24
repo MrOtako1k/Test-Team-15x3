@@ -289,6 +289,11 @@
             color: white;
         }
 
+        .btn-status {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
         .btn:hover {
             transform: translateY(-3px);
         }
@@ -300,6 +305,10 @@
         .btn-secondary:hover {
             border-color: #4CAF50;
             background: rgba(76, 175, 80, 0.1);
+        }
+
+        .btn-status:hover {
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
         }
 
         /* Copy Button */
@@ -384,7 +393,7 @@
             <h1 class="success-title">تم الإرسال بنجاح!</h1>
             
             <p class="success-message">
-                تم إرسال طلب الانضمام إلى Discord بنجاح. سيتم مراجعة طلبك من قبل فريق الإدارة قريباً.
+                تم إرسال طلب الانضمام إلى Discord بنجاح مع أزرار التفاعل. سيتم مراجعة طلبك من قبل فريق الإدارة قريباً.
             </p>
 
             <div class="status-container">
@@ -423,11 +432,14 @@
                     معلومات Discord
                 </div>
                 <div class="discord-description">
-                    تم إرسال طلبك إلى خادم Discord الخاص بالفريق. ستحصل على رد من الإدارة خلال 24-48 ساعة.
+                    تم إرسال طلبك إلى خادم Discord مع أزرار القبول والرفض. يمكن للإدارة الآن اتخاذ قرار بشأن طلبك مباشرة من Discord.
                 </div>
             </div>
 
             <div class="action-buttons">
+                <button class="btn btn-status" onclick="checkStatus()">
+                    📊 تتبع حالة الطلب
+                </button>
                 <button class="btn btn-primary" onclick="goHome()">
                     العودة للصفحة الرئيسية
                 </button>
@@ -506,6 +518,12 @@
                 copyBtn.textContent = originalText;
                 copyBtn.style.background = 'rgba(76, 175, 80, 0.2)';
             }, 2000);
+        }
+
+        // تتبع حالة الطلب
+        function checkStatus() {
+            const reference = getReferenceFromURL();
+            window.location.href = `status.html?ref=${reference}`;
         }
 
         // العودة للصفحة الرئيسية
