@@ -255,6 +255,35 @@
             line-height: 1.5;
         }
 
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .quick-btn {
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .quick-btn:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
         /* Footer */
         .footer {
             position: absolute;
@@ -294,6 +323,16 @@
             .header {
                 margin-bottom: 40px;
             }
+
+            .quick-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .quick-btn {
+                width: 100%;
+                max-width: 250px;
+            }
         }
     </style>
 </head>
@@ -312,11 +351,20 @@
             <div class="card-icon">📋</div>
             <h2 class="card-title">الاستبيان التفاعلي</h2>
             <p class="card-description">
-                املأ الاستبيان للانضمام إلى فريق TEST TEAM والمشاركة في المشاريع المثيرة
+                املأ الاستبيان للانضمام إلى فريق TEST TEAM والمشاركة في المشاريع المثيرة مع نظام تتبع متقدم
             </p>
             <button class="start-btn" onclick="startSurvey()">
                 بدء الاستبيان
             </button>
+        </div>
+
+        <div class="quick-actions">
+            <a href="status.html" class="quick-btn">
+                📊 تتبع حالة الطلب
+            </a>
+            <a href="#" class="quick-btn" onclick="showInfo()">
+                ℹ️ معلومات الفريق
+            </a>
         </div>
 
         <div class="features">
@@ -334,6 +382,11 @@
                 <div class="feature-icon">🎯</div>
                 <div class="feature-title">فريق متميز</div>
                 <div class="feature-description">كن جزءاً من فريق محترف ومتطور</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">تتبع متقدم</div>
+                <div class="feature-description">تتبع حالة طلبك في الوقت الفعلي</div>
             </div>
         </div>
     </div>
@@ -368,6 +421,25 @@
             setTimeout(() => {
                 window.location.href = 'survey.html';
             }, 500);
+        }
+
+        // إظهار معلومات الفريق
+        function showInfo() {
+            alert(`
+🚀 TEST TEAM - 15x3 EDITION
+
+نحن فريق تقني متخصص في:
+• تطوير التطبيقات والألعاب
+• المشاريع التقنية المبتكرة
+• التعلم والتطوير المستمر
+
+المميزات الجديدة:
+✅ نظام تتبع الطلبات
+✅ أزرار تفاعلية في Discord
+✅ إشعارات فورية للقرارات
+
+انضم إلينا الآن!
+            `);
         }
 
         // تحميل الصفحة
