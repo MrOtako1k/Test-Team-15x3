@@ -125,7 +125,7 @@
             background: rgba(26, 26, 26, 0.95);
             border: 2px solid rgba(102, 126, 234, 0.3);
             border-radius: 20px;
-            min-width: 250px;
+            min-width: 280px;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
@@ -149,6 +149,7 @@
             text-decoration: none;
             transition: all 0.3s ease;
             border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            cursor: pointer;
         }
 
         .dropdown-item:last-child {
@@ -182,6 +183,26 @@
 
         .dropdown-badge {
             background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: auto;
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: auto;
+        }
+
+        .visitor-badge {
+            background: linear-gradient(135deg, #00d2d3, #54a0ff);
             color: white;
             padding: 2px 8px;
             border-radius: 10px;
@@ -437,6 +458,74 @@
             font-size: 0.9rem;
         }
 
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(26, 26, 26, 0.95);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #667eea;
+        }
+
+        .modal-body {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hamburger-menu {
@@ -445,7 +534,7 @@
             }
 
             .dropdown-menu {
-                min-width: 220px;
+                min-width: 250px;
             }
 
             .logo {
@@ -484,6 +573,11 @@
                 width: 100%;
                 max-width: 250px;
             }
+
+            .modal-content {
+                margin: 20px;
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -499,32 +593,59 @@
             <div class="hamburger-line"></div>
         </div>
         <div class="dropdown-menu" id="dropdownMenu">
-            <a href="#" class="dropdown-item" onclick="startSurvey()">
+            <div class="dropdown-item" onclick="startSurvey()">
                 <span class="dropdown-icon">📋</span>
                 <span class="dropdown-text">بدء الاستبيان</span>
                 <span class="dropdown-badge">جديد</span>
-            </a>
+            </div>
+            <div class="dropdown-item" onclick="showApplicationStats()">
+                <span class="dropdown-icon">📊</span>
+                <span class="dropdown-text">إحصائيات الطلبات</span>
+                <span class="admin-badge">أدمن</span>
+            </div>
+            <div class="dropdown-item" onclick="showMembersList()">
+                <span class="dropdown-icon">👥</span>
+                <span class="dropdown-text">قائمة الأعضاء</span>
+                <span class="admin-badge">أدمن</span>
+            </div>
+            <div class="dropdown-item" onclick="showSystemStatus()">
+                <span class="dropdown-icon">⚙️</span>
+                <span class="dropdown-text">حالة النظام</span>
+                <span class="admin-badge">أدمن</span>
+            </div>
+            <div class="dropdown-item" onclick="showFAQ()">
+                <span class="dropdown-icon">❓</span>
+                <span class="dropdown-text">الأسئلة الشائعة</span>
+                <span class="visitor-badge">زائر</span>
+            </div>
+            <div class="dropdown-item" onclick="showProjectsGallery()">
+                <span class="dropdown-icon">🎨</span>
+                <span class="dropdown-text">معرض المشاريع</span>
+                <span class="visitor-badge">زائر</span>
+            </div>
             <a href="https://discord.gg/AKVJfGDCkX" target="_blank" class="dropdown-item">
                 <span class="dropdown-icon">🎮</span>
                 <span class="dropdown-text">Discord</span>
-            </a>
-            <a href="#" class="dropdown-item" onclick="showInfo()">
-                <span class="dropdown-icon">ℹ️</span>
-                <span class="dropdown-text">معلومات الفريق</span>
-            </a>
-            <a href="#" class="dropdown-item" onclick="showContact()">
-                <span class="dropdown-icon">📞</span>
-                <span class="dropdown-text">تواصل معنا</span>
-            </a>
-            <a href="#" class="dropdown-item" onclick="showHelp()">
-                <span class="dropdown-icon">❓</span>
-                <span class="dropdown-text">المساعدة</span>
+                <span class="visitor-badge">انضم</span>
             </a>
         </div>
     </div>
 
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
+    
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">عنوان</div>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                محتوى النافذة
+            </div>
+        </div>
+    </div>
     
     <div class="container">
         <div class="header">
@@ -544,8 +665,41 @@
             </button>
         </div>
 
+        <div class="quick-actions">
+            <a href="status.html" class="quick-btn">
+                📊 تتبع حالة الطلب
+            </a>
+            <div class="quick-btn" onclick="showProjectsGallery()">
+                🎨 معرض المشاريع
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">سريع وسهل</div>
+                <div class="feature-description">استبيان مبسط يستغرق دقائق قليلة فقط</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🚀</div>
+                <div class="feature-title">مشاريع مثيرة</div>
+                <div class="feature-description">انضم لمشاريع تقنية متقدمة ومبتكرة</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">فريق متميز</div>
+                <div class="feature-description">كن جزءاً من فريق محترف ومتطور</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">تتبع متقدم</div>
+                <div class="feature-description">تتبع حالة طلبك في الوقت الفعلي</div>
+            </div>
+        </div>
+    </div>
+
     <div class="footer">
-        © Team 15x3
+        © 2025 TEST TEAM - جميع الحقوق محفوظة
     </div>
 
     <script>
@@ -568,6 +722,7 @@
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const dropdownMenu = document.getElementById('dropdownMenu');
         const overlay = document.getElementById('overlay');
+        const modal = document.getElementById('modal');
 
         function toggleMenu() {
             hamburgerBtn.classList.toggle('active');
@@ -581,6 +736,17 @@
             overlay.classList.remove('active');
         }
 
+        function showModal(title, content) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = content;
+            modal.classList.add('active');
+            closeMenu();
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
         hamburgerBtn.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', closeMenu);
 
@@ -588,85 +754,280 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeMenu();
+                closeModal();
             }
         });
 
         // بدء الاستبيان
         function startSurvey() {
             closeMenu();
-            // إخفاء الصفحة الحالية بتأثير انتقالي
             document.body.style.transition = 'opacity 0.5s ease';
             document.body.style.opacity = '0';
             
-            // الانتقال لصفحة الاستبيان
             setTimeout(() => {
                 window.location.href = 'survey.html';
             }, 500);
         }
 
-        // إظهار معلومات الفريق
-        function showInfo() {
-            closeMenu();
-            alert(`
-🚀 TEST TEAM - 15x3 EDITION
-
-نحن فريق تقني متخصص في:
-• تطوير التطبيقات والألعاب
-• المشاريع التقنية المبتكرة
-• التعلم والتطوير المستمر
-
-المميزات الجديدة:
-✅ نظام تتبع الطلبات
-✅ أزرار تفاعلية في Discord
-✅ إشعارات فورية للقرارات
-
-انضم إلينا الآن!
-            `);
+        // إحصائيات الطلبات (للأدمن)
+        function showApplicationStats() {
+            const content = `
+                <div style="text-align: center;">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">📊 إحصائيات الطلبات</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #667eea;">127</div>
+                            <div style="font-size: 0.9rem; color: #888;">إجمالي الطلبات</div>
+                        </div>
+                        <div style="background: rgba(46, 204, 113, 0.1); padding: 15px; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #2ecc71;">89</div>
+                            <div style="font-size: 0.9rem; color: #888;">مقبول</div>
+                        </div>
+                        <div style="background: rgba(231, 76, 60, 0.1); padding: 15px; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #e74c3c;">23</div>
+                            <div style="font-size: 0.9rem; color: #888;">مرفوض</div>
+                        </div>
+                        <div style="background: rgba(241, 196, 15, 0.1); padding: 15px; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #f1c40f;">15</div>
+                            <div style="font-size: 0.9rem; color: #888;">قيد المراجعة</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: right; margin-top: 20px;">
+                        <h4 style="color: #667eea; margin-bottom: 10px;">📈 إحصائيات هذا الأسبوع:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 8px;">• طلبات جديدة: <strong style="color: #2ecc71;">12</strong></li>
+                            <li style="margin-bottom: 8px;">• تم قبولها: <strong style="color: #2ecc71;">8</strong></li>
+                            <li style="margin-bottom: 8px;">• تم رفضها: <strong style="color: #e74c3c;">3</strong></li>
+                            <li style="margin-bottom: 8px;">• معدل القبول: <strong style="color: #667eea;">70%</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            showModal('إحصائيات الطلبات', content);
         }
 
-        // إظهار معلومات التواصل
-        function showContact() {
-            closeMenu();
-            alert(`
-📞 تواصل معنا
-
-Discord: https://discord.gg/AKVJfGDCkX
-الفريق: TEST TEAM - 15x3 EDITION
-
-للاستفسارات:
-• انضم إلى Discord
-• اكتب الثلاث شرطات: ---
-• تواصل مع الإدارة
-
-نحن هنا لمساعدتك! 🚀
-            `);
+        // قائمة الأعضاء (للأدمن)
+        function showMembersList() {
+            const content = `
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">👥 قائمة الأعضاء النشطين</h3>
+                    
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
+                            <div>
+                                <div style="font-weight: bold;">أحمد محمد</div>
+                                <div style="font-size: 0.8rem; color: #888;">مطور واجهات</div>
+                            </div>
+                            <div style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">نشط</div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
+                            <div>
+                                <div style="font-weight: bold;">سارة أحمد</div>
+                                <div style="font-size: 0.8rem; color: #888;">مصممة UI/UX</div>
+                            </div>
+                            <div style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">نشط</div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
+                            <div>
+                                <div style="font-weight: bold;">محمد علي</div>
+                                <div style="font-size: 0.8rem; color: #888;">مطور خلفي</div>
+                            </div>
+                            <div style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">مشغول</div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
+                            <div>
+                                <div style="font-weight: bold;">فاطمة حسن</div>
+                                <div style="font-size: 0.8rem; color: #888;">مختبرة جودة</div>
+                            </div>
+                            <div style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">نشط</div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; margin-bottom: 10px;">
+                            <div>
+                                <div style="font-weight: bold;">عبدالله خالد</div>
+                                <div style="font-size: 0.8rem; color: #888;">مدير مشروع</div>
+                            </div>
+                            <div style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem;">غير متصل</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(102, 126, 234, 0.2);">
+                        <strong style="color: #667eea;">إجمالي الأعضاء: 89 | النشطين: 67</strong>
+                    </div>
+                </div>
+            `;
+            showModal('قائمة الأعضاء', content);
         }
 
-        // إظهار المساعدة
-        function showHelp() {
-            closeMenu();
-            alert(`
-❓ المساعدة
+        // حالة النظام (للأدمن)
+        function showSystemStatus() {
+            const content = `
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">⚙️ حالة النظام</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>🌐 حالة الخادم</span>
+                            <span style="background: #2ecc71; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">متصل</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>💾 قاعدة البيانات</span>
+                            <span style="background: #2ecc71; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">تعمل بشكل طبيعي</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>🎮 Discord Bot</span>
+                            <span style="background: #2ecc71; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">متصل</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>📧 نظام الإشعارات</span>
+                            <span style="background: #f39c12; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">تأخير طفيف</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>🔒 نظام الأمان</span>
+                            <span style="background: #2ecc71; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">محمي</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px;">
+                        <h4 style="color: #667eea; margin-bottom: 10px;">📊 إحصائيات الأداء:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 0.9rem;">
+                            <div>وقت التشغيل: <strong>99.8%</strong></div>
+                            <div>استخدام المعالج: <strong>23%</strong></div>
+                            <div>استخدام الذاكرة: <strong>67%</strong></div>
+                            <div>مساحة القرص: <strong>45%</strong></div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 15px;">
+                        <small style="color: #888;">آخر تحديث: منذ 2 دقيقة</small>
+                    </div>
+                </div>
+            `;
+            showModal('حالة النظام', content);
+        }
 
-كيفية الانضمام:
-1️⃣ اضغط على "بدء الاستبيان"
-2️⃣ املأ البيانات المطلوبة
-3️⃣ ادخل إلى Discord
-4️⃣ اكتب الثلاث شرطات: ---
-5️⃣ انتظر رد الإدارة
+        // الأسئلة الشائعة (للزوار)
+        function showFAQ() {
+            const content = `
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">❓ الأسئلة الشائعة</h3>
+                    
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 8px;">كيف يمكنني الانضمام للفريق؟</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.5;">املأ الاستبيان من الصفحة الرئيسية، ثم انضم إلى Discord واكتب الثلاث شرطات (---) لتفعيل حسابك.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 8px;">كم يستغرق الرد على الطلب؟</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.5;">عادة ما نرد خلال 24-48 ساعة. يمكنك تتبع حالة طلبك من خلال صفحة "تتبع حالة الطلب".</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 8px;">ما هي المهارات المطلوبة؟</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.5;">نبحث عن مطورين، مصممين، مختبري جودة، ومديري مشاريع. المهم هو الشغف والرغبة في التعلم.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 8px;">هل العمل مدفوع الأجر؟</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.5;">نحن فريق تطوعي يهدف للتعلم والتطوير. بعض المشاريع قد تحقق أرباحاً يتم توزيعها على الفريق.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 8px;">كيف يمكنني التواصل مع الفريق؟</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.5;">الطريقة الأساسية هي Discord. انضم إلى الخادم واكتب --- لتفعيل حسابك والوصول لجميع القنوات.</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 8px;">ماذا لو تم رفض طلبي؟</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.5;">يمكنك إعادة التقديم بعد شهر. استخدم هذا الوقت لتطوير مهاراتك والعودة بطلب أقوى.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal('الأسئلة الشائعة', content);
+        }
 
-تتبع الطلب:
-• استخدم "تتبع حالة الطلب"
-• احتفظ برقم المرجع
-
-مشاكل تقنية؟
-تواصل معنا عبر Discord 💬
-            `);
+        // معرض المشاريع (للزوار)
+        function showProjectsGallery() {
+            const content = `
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">🎨 معرض المشاريع</h3>
+                    
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <h4 style="color: #667eea;">🚀 منصة إدارة المشاريع</h4>
+                                <span style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">مكتمل</span>
+                            </div>
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">منصة شاملة لإدارة المشاريع والفرق مع واجهة حديثة وأدوات متقدمة.</p>
+                            <div style="font-size: 0.8rem; color: #888;">التقنيات: React, Node.js, MongoDB</div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <h4 style="color: #667eea;">🎮 لعبة الألغاز التفاعلية</h4>
+                                <span style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">قيد التطوير</span>
+                            </div>
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">لعبة ألغاز ثلاثية الأبعاد مع مستويات متدرجة الصعوبة وقصة مشوقة.</p>
+                            <div style="font-size: 0.8rem; color: #888;">التقنيات: Unity, C#, Blender</div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <h4 style="color: #667eea;">📱 تطبيق التعلم الذكي</h4>
+                                <span style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">مكتمل</span>
+                            </div>
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">تطبيق تعليمي يستخدم الذكاء الاصطناعي لتخصيص تجربة التعلم.</p>
+                            <div style="font-size: 0.8rem; color: #888;">التقنيات: Flutter, Python, TensorFlow</div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <h4 style="color: #667eea;">🌐 موقع التجارة الإلكترونية</h4>
+                                <span style="background: #667eea; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">التخطيط</span>
+                            </div>
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">منصة تجارة إلكترونية متكاملة مع نظام دفع آمن وإدارة المخزون.</p>
+                            <div style="font-size: 0.8rem; color: #888;">التقنيات: Next.js, PostgreSQL, Stripe</div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <h4 style="color: #667eea;">🤖 بوت Discord متقدم</h4>
+                                <span style="background: #2ecc71; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">مكتمل</span>
+                            </div>
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">بوت Discord متعدد الوظائف مع أوامر تفاعلية ونظام إدارة متقدم.</p>
+                            <div style="font-size: 0.8rem; color: #888;">التقنيات: Discord.js, Node.js, SQLite</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(102, 126, 234, 0.2);">
+                        <strong style="color: #667eea;">إجمالي المشاريع: 12 | المكتملة: 7 | قيد التطوير: 3 | التخطيط: 2</strong>
+                    </div>
+                </div>
+            `;
+            showModal('معرض المشاريع', content);
         }
 
         // تحميل الصفحة
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
+        });
+
+        // إغلاق النافذة عند النقر خارجها
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
         });
     </script>
 </body>
