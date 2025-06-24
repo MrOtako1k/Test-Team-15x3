@@ -418,11 +418,6 @@
                 id: 12,
                 text: "3TINA NMRA DYALK BACHE ANTWASLO M3AKE",
                 type: "text"
-            },
-            {
-                id: 13,
-                text: "MATCHERBOCHE KOKA KOLA RAH KATKEBER AL BEZOLAAAA",
-                type: "yes_no"
             }
         ];
 
@@ -527,7 +522,7 @@
 
             saveDiscordWebhook();
 
-            // إنشاء الرسالة المنسقة
+            // إنشاء الرسالة المنسقة مع أزرار التفاعل
             const embed = {
                 title: "🆕 طلب انضمام جديد - TEST TEAM",
                 color: 6765674, // اللون الأزرق
@@ -595,13 +590,55 @@
                         name: "🏷️ DAYMAN HAYDIR TAG 15x3",
                         value: data.keepTag || "غير محدد",
                         inline: true
+                    },
+                    {
+                        name: "🔗 رقم المرجع",
+                        value: `\`${data.reference}\``,
+                        inline: false
                     }
                 ]
             };
 
+            // إضافة أزرار التفاعل
+            const components = [
+                {
+                    type: 1, // Action Row
+                    components: [
+                        {
+                            type: 2, // Button
+                            style: 3, // Success (Green)
+                            label: "✅ قبول الطلب",
+                            custom_id: `approve_${data.reference}`,
+                            emoji: {
+                                name: "✅"
+                            }
+                        },
+                        {
+                            type: 2, // Button
+                            style: 4, // Danger (Red)
+                            label: "❌ رفض الطلب",
+                            custom_id: `reject_${data.reference}`,
+                            emoji: {
+                                name: "❌"
+                            }
+                        },
+                        {
+                            type: 2, // Button
+                            style: 1, // Primary (Blue)
+                            label: "📋 عرض التفاصيل",
+                            custom_id: `details_${data.reference}`,
+                            emoji: {
+                                name: "📋"
+                            }
+                        }
+                    ]
+                }
+            ];
+
             const payload = {
-                content: `📋 **طلب انضمام جديد!**`,
-                embeds: [embed]
+                content: `📋 **طلب انضمام جديد!**\n🔗 **رقم المرجع:** \`${data.reference}\``,
+                embeds: [embed],
+                components: components
             };
 
             const response = await fetch(webhookUrl, {
@@ -640,6 +677,9 @@
             submitBtn.disabled = true;
 
             try {
+                // إنشاء رقم مرجع فريد
+                const reference = `15X3-${Date.now().toString().slice(-8)}`;
+                
                 // إنشاء بيانات الطلب
                 const submissionData = {
                     name: answers[1] || 'غير محدد',
@@ -655,8 +695,12 @@
                     keepTag: answers[11] || 'غير محدد',
                     phoneNumber: answers[12] || 'غير محدد',
                     submissionDate: new Date().toISOString(),
-                    reference: `15X3-${Date.now().toString().slice(-8)}`
+                    reference: reference,
+                    status: 'pending' // حالة الطلب: في الانتظار
                 };
+
+                // حفظ البيانات محلياً لتتبع الحالة
+                localStorage.setItem(`application_${reference}`, JSON.stringify(submissionData));
 
                 // إرسال إلى Discord
                 await sendToDiscord(submissionData);
@@ -665,11 +709,10 @@
                 submitBtn.innerHTML = '✅ تم الإرسال بنجاح!';
                 submitBtn.style.background = '#10b981';
                 
-                // إعادة تعيين النموذج بعد 3 ثوان
+                // الانتقال لصفحة النجاح مع رقم المرجع
                 setTimeout(() => {
-                    alert('تم إرسال الاستبيان بنجاح! شكراً لك.');
-                    location.reload();
-                }, 2000);
+                    window.location.href = `success.html?ref=${reference}`;
+                }, 1500);
 
             } catch (error) {
                 console.error('خطأ في الإرسال:', error);
