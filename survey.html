@@ -388,6 +388,19 @@
             }
         }
 
+        /* Error Message */
+        .error-message {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #f44336;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
         /* Responsive محسن */
         @media (max-width: 768px) {
             .questions-grid {
@@ -468,6 +481,12 @@
         
         <div class="questions-grid" id="questionsContainer">
             <!-- الأسئلة ستتم إضافتها هنا -->
+        </div>
+
+        <!-- رسالة الخطأ -->
+        <div class="error-message" id="errorMessage">
+            <strong>⚠️ فشل في الإرسال!</strong><br>
+            <span id="errorDetails">حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.</span>
         </div>
         
         <div class="submit-section">
@@ -670,6 +689,23 @@
             }, 2000);
         }
 
+        function showError(message, details = '') {
+            const errorMessage = document.getElementById('errorMessage');
+            const errorDetails = document.getElementById('errorDetails');
+            
+            errorDetails.textContent = details || message;
+            errorMessage.style.display = 'block';
+            
+            // إخفاء الرسالة بعد 5 ثوانٍ
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
         function loadDiscordWebhook() {
             const saved = localStorage.getItem(DISCORD_WEBHOOK_KEY);
             if (saved) {
@@ -688,7 +724,12 @@
             const webhookUrl = document.getElementById('discordWebhook').value;
             
             if (!webhookUrl) {
-                throw new Error('خطأ في الإعدادات');
+                throw new Error('رابط Discord Webhook غير موجود');
+            }
+
+            // التحقق من صحة الرابط
+            if (!webhookUrl.includes('discord.com/api/webhooks/')) {
+                throw new Error('رابط Discord Webhook غير صحيح');
             }
 
             saveDiscordWebhook();
@@ -826,23 +867,45 @@
                 components: components
             };
 
-            const response = await fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload)
-            });
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
 
-            if (!response.ok) {
-                throw new Error(`خطأ في إرسال الرسالة: ${response.status}`);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Discord API Error:', response.status, errorText);
+                    
+                    if (response.status === 404) {
+                        throw new Error('رابط Discord Webhook غير صحيح أو منتهي الصلاحية');
+                    } else if (response.status === 400) {
+                        throw new Error('خطأ في تنسيق البيانات المرسلة');
+                    } else if (response.status === 429) {
+                        throw new Error('تم تجاوز الحد المسموح للطلبات. يرجى المحاولة لاحقاً');
+                    } else {
+                        throw new Error(`خطأ من خادم Discord: ${response.status}`);
+                    }
+                }
+
+                return response;
+            } catch (networkError) {
+                console.error('Network Error:', networkError);
+                if (networkError.name === 'TypeError' && networkError.message.includes('fetch')) {
+                    throw new Error('مشكلة في الاتصال بالإنترنت. تحقق من اتصالك وحاول مرة أخرى');
+                }
+                throw networkError;
             }
-
-            return response;
         }
 
         async function submitSurvey() {
             const submitBtn = document.getElementById('submitBtn');
+            
+            // إخفاء رسائل الخطأ السابقة
+            hideError();
             
             // التحقق من الإجابات
             let unanswered = [];
@@ -853,13 +916,13 @@
             });
 
             if (unanswered.length > 0) {
-                // تحسين رسالة التنبيه
                 const missingQuestions = unanswered.map(id => `السؤال ${id}`).join(', ');
-                alert(`⚠️ يرجى إكمال الأسئلة المتبقية:\n${missingQuestions}`);
+                showError('يرجى إكمال جميع الأسئلة', `الأسئلة المتبقية: ${missingQuestions}`);
                 
                 // تمييز الأسئلة غير المكتملة
                 unanswered.forEach(id => {
-                    const questionCard = document.querySelector(`[data-question-id="${id}"]`);
+                    const questionCards = document.querySelectorAll('.question-card');
+                    const questionCard = questionCards[id - 1];
                     if (questionCard) {
                         questionCard.style.borderColor = '#ff6b6b';
                         questionCard.style.boxShadow = '0 0 20px rgba(255, 107, 107, 0.3)';
@@ -943,12 +1006,13 @@
                 submitBtn.style.background = 'linear-gradient(135deg, #f44336, #d32f2f)';
                 submitBtn.disabled = false;
                 
+                // إظهار رسالة خطأ مفصلة
+                showError('فشل في إرسال الطلب', error.message);
+                
                 setTimeout(() => {
                     submitBtn.innerHTML = 'إرسال الطلب للفريق';
                     submitBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2, #f093fb)';
                 }, 3000);
-                
-                alert(`❌ حدث خطأ في الإرسال:\n${error.message}\n\nيرجى المحاولة مرة أخرى.`);
             }
         }
 
