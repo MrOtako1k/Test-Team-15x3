@@ -155,6 +155,179 @@
             z-index: 1;
         }
 
+        /* Status Info */
+        .status-container {
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 20px;
+            padding: 35px;
+            margin: 35px 0;
+            text-align: right;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(76, 175, 80, 0.1);
+        }
+
+        .status-row:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: #888;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .status-value {
+            color: #4CAF50;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .status-icon {
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Reference Box */
+        .reference-container {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .reference-label {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .reference-value {
+            font-family: 'Courier New', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4CAF50;
+            letter-spacing: 2px;
+            text-align: center;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        /* Discord Info */
+        .discord-info {
+            background: rgba(114, 137, 218, 0.1);
+            border: 1px solid rgba(114, 137, 218, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .discord-title-small {
+            color: #7289da;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .discord-description {
+            color: #a0a0a0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            color: white;
+        }
+
+        .btn-status {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 15px 40px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondary:hover {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .btn-status:hover {
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(76, 175, 80, 0.3);
+        }
+
         /* Team Badge */
         .team-badge {
             display: inline-block;
@@ -313,6 +486,27 @@
                 font-size: 1.1rem;
             }
 
+            .status-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .reference-value {
+                font-size: 1.4rem;
+                letter-spacing: 1px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+
             .discord-instructions {
                 padding: 20px;
             }
@@ -349,9 +543,61 @@
             <p class="success-message">
                 تم إرسال طلب الانضمام إلى Discord بنجاح مع أزرار التفاعل. سيتم مراجعة طلبك من قبل فريق الإدارة قريباً.
             </p>
+
+            <div class="status-container">
+                <div class="status-row">
+                    <span class="status-label">
+                        <span class="status-icon">📋</span>
+                        حالة الطلب:
+                    </span>
+                    <span class="status-value">تم الإرسال لـ Discord</span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label">
+                        <span class="status-icon">📅</span>
+                        تاريخ الإرسال:
+                    </span>
+                    <span class="status-value" id="submissionDate"></span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label">
+                        <span class="status-icon">🚀</span>
+                        الفريق:
+                    </span>
+                    <span class="status-value">TEST TEAM - 15x3</span>
+                </div>
+            </div>
+
+            <div class="reference-container">
+                <div class="reference-label">رقم المرجع للطلب:</div>
+                <div class="reference-value" id="referenceNumber">15X3-XXXXXXXX</div>
+                <button class="copy-btn" onclick="copyReference()">نسخ الرقم</button>
+            </div>
+
+            <div class="discord-info">
+                <div class="discord-title-small">
+                    <span>🤖</span>
+                    معلومات إضافية
+                </div>
+                <div class="discord-description">
+                    تم إرسال طلبك إلى خادم Discord مع أزرار القبول والرفض. يمكن للإدارة الآن اتخاذ قرار بشأن طلبك مباشرة من Discord بعد إضافة الثلاث شرطات.
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-status" onclick="checkStatus()">
+                    📊 تتبع حالة الطلب
+                </button>
+                <button class="btn btn-primary" onclick="goHome()">
+                    العودة للصفحة الرئيسية
+                </button>
+                <button class="btn btn-secondary" onclick="submitAnother()">
+                    إرسال طلب آخر
+                </button>
+            </div>
         </div>
 
-        <!-- تعليمات Discord -->
+        <!-- تعليمات Discord في الأسفل -->
         <div class="discord-instructions">
             <div class="discord-title">
                 <span class="discord-icon">🎮</span>
@@ -384,7 +630,7 @@
                 <div class="step-item">
                     <div class="step-number">3</div>
                     <div class="step-text">
-                        انتظر رد الإدارة على طلبك
+                        انتظر رد الإدارة على طلبك مع رقم المرجع: <span class="highlight-text" id="referenceForDiscord">15X3-XXXXXXXX</span>
                     </div>
                 </div>
             </div>
@@ -412,9 +658,92 @@
             }
         }
 
+        // الحصول على رقم المرجع من URL
+        function getReferenceFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const reference = urlParams.get('ref');
+            return reference || `15X3-${Date.now().toString().slice(-8)}`;
+        }
+
+        // تحديث التاريخ ورقم المرجع
+        function updatePageInfo() {
+            const now = new Date();
+            const dateString = now.toLocaleDateString('ar-SA', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            const reference = getReferenceFromURL();
+            document.getElementById('submissionDate').textContent = dateString;
+            document.getElementById('referenceNumber').textContent = reference;
+            document.getElementById('referenceForDiscord').textContent = reference;
+        }
+
+        // نسخ رقم المرجع
+        function copyReference() {
+            const referenceNumber = document.getElementById('referenceNumber').textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(referenceNumber).then(() => {
+                    showCopySuccess();
+                });
+            } else {
+                // Fallback للمتصفحات الأقدم
+                const textArea = document.createElement('textarea');
+                textArea.value = referenceNumber;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCopySuccess();
+            }
+        }
+
+        // إظهار رسالة نجاح النسخ
+        function showCopySuccess() {
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalText = copyBtn.textContent;
+            
+            copyBtn.textContent = 'تم النسخ ✓';
+            copyBtn.style.background = 'rgba(76, 175, 80, 0.4)';
+            
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.background = 'rgba(76, 175, 80, 0.2)';
+            }, 2000);
+        }
+
+        // تتبع حالة الطلب
+        function checkStatus() {
+            const reference = getReferenceFromURL();
+            window.location.href = `status.html?ref=${reference}`;
+        }
+
+        // العودة للصفحة الرئيسية
+        function goHome() {
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+
+        // إرسال طلب آخر
+        function submitAnother() {
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = 'survey.html';
+            }, 500);
+        }
+
         // تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
+            updatePageInfo();
         });
     </script>
 </body>
